@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AllUpBack.DAL;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AllUpBack.Areas.AdminArea.Controllers
 {
     [Area("adminarea")]
+    [Authorize(Roles = "admin")]
     public class ProductController : Controller
     {
         private readonly DataBase _context;

@@ -1,40 +1,29 @@
-﻿@{
+﻿@model HomeVM
+@{
     ViewData["Title"] = "Home Page";
 }
 
     <!--====== Slider Part Start ======-->
 
     <section class="slider-area slider-active">
-        <div class="single-slider">
+        @foreach (var item in Model.Sliders)
+        {
+            <div class="single-slider">
             <div class="slider-image">
-                <img src="~/assets/images/slider-1.jpg" alt="slider">
+                <img src="~/assets/images/@item.Url" alt="slider">
             </div>
             <div class="slider-content-wrapper">
                 <div class="container-fluid custom-container">
                     <div class="slider-content">
                         <h4 data-animation="fadeInDown" data-delay="0.5s" class="sub-title">Save $120 when you buy</h4>
-                        <h1 data-animation="fadeInLeft" data-delay="0.5s" class="main-title "><span>2020 Virtual Reality </span> Fulldive VR.</h1>
-                        <p data-animation="fadeInRightBig" data-delay="0.5s">Explore and immerse in exciting 360 content with Fulldive’s all-in-one virtual reality platform</p>
-                        <a data-animation="zoomIn" data-delay="0.5s" class="main-btn " href="single-product.html">Shop Now</a>
+                        <h1 data-animation="fadeInLeft" data-delay="0.5s" class="main-title ">@Html.Raw(item.ProductDesc)</h1>
+                        <p data-animation="fadeInRightBig" data-delay="0.5s">@item.Text</p>
+                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@item.ProductId" data-animation="zoomIn" data-delay="0.5s" class="main-btn ">Shop Now</a>
                     </div>
-                </div> <!-- container -->
+                </div> 
             </div>
-        </div> <!-- single slider -->
-        <div class="single-slider">
-            <div class="slider-image">
-                <img src="~/assets/images/slider-2.jpg" alt="slider">
-            </div>
-            <div class="slider-content-wrapper">
-                <div class="container-fluid custom-container">
-                    <div class="slider-content">
-                        <h4 data-animation="fadeInDown" data-delay="0.5s" class="sub-title">Save $120 when you buy</h4>
-                        <h1 data-animation="fadeInLeft" data-delay="0.5s" class="main-title "><span>4K HDR Smart TV 43 </span> Sony Bravia.</h1>
-                        <p data-animation="fadeInRightBig" data-delay="0.5s">Explore and immerse in exciting 360 content with Fulldive’s all-in-one virtual reality platform</p>
-                        <a data-animation="zoomIn" data-delay="0.5s" class="main-btn " href="single-product.html">Shop Now</a>
-                    </div>
-                </div> <!-- container -->
-            </div>
-        </div> <!-- single slider -->
+        </div>
+        }
     </section>
 
     <!--====== Slider Part Ends ======-->
@@ -44,16 +33,14 @@
     <div class="banner-area banner-bg">
         <div class="container-fluid custom-container">
             <div class="row">
-                <div class="col-md-6">
+               @foreach (var item in Model.Banners)
+               {
+                 <div class="col-md-6">
                     <div class="banner-image">
-                        <a href="shop-4-column.html"><img src="~/assets/images/banner-1.png" alt="banner"></a>
-                    </div> <!-- banner image -->
+                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@item.ProductId"><img src="~/assets/images/@item.Url" alt="banner"></a>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="banner-image">
-                        <a href="shop-4-column.html"><img src="~/assets/images/banner-2.png" alt="banner"></a>
-                    </div> <!-- banner image -->
-                </div>
+               }
             </div> <!-- row -->
         </div> <!-- container -->
     </div>

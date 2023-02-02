@@ -3,6 +3,7 @@ using System;
 using AllUpBack.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AllUpBack.Migrations
 {
     [DbContext(typeof(DataBase))]
-    partial class DataBaseModelSnapshot : ModelSnapshot
+    [Migration("20230202103324_UpdateSliders1")]
+    partial class UpdateSliders1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.13");
@@ -84,43 +86,6 @@ namespace AllUpBack.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("AllUpBack.Models.Banner", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId")
-                        .IsUnique();
-
-                    b.ToTable("Banners");
-                });
-
-            modelBuilder.Entity("AllUpBack.Models.Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("BannerId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("SliderId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Products");
-                });
-
             modelBuilder.Entity("AllUpBack.Models.Slider", b =>
                 {
                     b.Property<int>("Id")
@@ -130,9 +95,6 @@ namespace AllUpBack.Migrations
                     b.Property<string>("ProductDesc")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Text")
                         .HasColumnType("TEXT");
 
@@ -140,9 +102,6 @@ namespace AllUpBack.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId")
-                        .IsUnique();
 
                     b.ToTable("Sliders");
                 });
@@ -275,28 +234,6 @@ namespace AllUpBack.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AllUpBack.Models.Banner", b =>
-                {
-                    b.HasOne("AllUpBack.Models.Product", "Product")
-                        .WithOne("Banner")
-                        .HasForeignKey("AllUpBack.Models.Banner", "ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("AllUpBack.Models.Slider", b =>
-                {
-                    b.HasOne("AllUpBack.Models.Product", "Product")
-                        .WithOne("Slider")
-                        .HasForeignKey("AllUpBack.Models.Slider", "ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -346,13 +283,6 @@ namespace AllUpBack.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("AllUpBack.Models.Product", b =>
-                {
-                    b.Navigation("Banner");
-
-                    b.Navigation("Slider");
                 });
 #pragma warning restore 612, 618
         }

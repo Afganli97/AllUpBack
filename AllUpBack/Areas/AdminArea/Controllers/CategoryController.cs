@@ -1,4 +1,5 @@
 ﻿using AllUpBack.DAL;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 namespace AllUpBack.Areas.AdminArea.Controllers
 {
     [Area("AdminArea")]
+    [Authorize(Roles = "admin")]
     public class CategoryController : Controller
     {
         private readonly DataBase _context;
