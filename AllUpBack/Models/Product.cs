@@ -1,16 +1,23 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AllUpBack.Models
 {
     public class Product
     {
         public int Id { get; set; }
-        public int? SliderId { get; set; }
+        public string ProductName { get; set; }
+        public double Price { get; set; }
+        public int Discount { get; set; }
+        public int Stars { get; set; }
+        public int Count { get; set; }
+        public string ProductCode { get; set; }
+        public string Description { get; set; }
+        public List<Image> Images { get; set; }
+        public List<Tag> Tags { get; set; }
         public Slider Slider { get; set; }
-        public int? BannerId { get; set; }
         public Banner Banner { get; set; }
+
+
+
     }
 }
