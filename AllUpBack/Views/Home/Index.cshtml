@@ -107,14 +107,14 @@
                 <div class="tab-pane fade show active" id="new" role="tabpanel" aria-labelledby="new-tab">
                     <div class="product-items">
                         <div class="row product-active">
-                        @for (int i = 0; i < Model.Products.Count; )
+                        @for (int i = 0; i < Model.Products.Count;)
                         {
                             <div class="col-lg-2">
-                                @for (int j = 0; j < 2; j++)
+                                @for (int j = 0; j < 2 && i < Model.Products.Count; j++, i++)
                                 {
                                     <div class="single-product mt-30">
                                     <div class="product-image">
-                                        <a href="single-product.html">
+                                        <a asp-controller="product" asp-action="detail" asp-route-id="@Model.Products[i].Id">
                                             <img class="first-image" src="~/assets/images/product/@Model.Products[i].Images.FirstOrDefault().ImageUrl" alt="product">
                                             <img class="second-image" src="~/assets/images/product/product-4.jpg" alt="product">
                                         </a>
@@ -124,20 +124,26 @@
                                             <li><a href="#"><i class="icon ion-android-options"></i></a></li>
                                             <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
                                         </ul>
-                                        <span class="discount-product">-12%</span>
+                                        
                                     </div>
                                     <div class="product-content">
                                         <ul class="product-rating">
-                                            <li class="rating-on"><i class="fas fa-star"></i></li>
-                                            <li class="rating-on"><i class="fas fa-star"></i></li>
-                                            <li class="rating-on"><i class="fas fa-star"></i></li>
-                                            <li class="rating-on"><i class="fas fa-star"></i></li>
-                                            <li class="rating-on"><i class="fas fa-star"></i></li>
+                                            @for (int l = 0; l < 5; l++)
+                                            {
+                                                <li class=@(l<Model.Products[i].Stars?"rating-on":"rating-off")><i class="fas fa-star"></i></li>
+                                            }
                                         </ul>
-                                        <h4 class="product-title"><a href="single-product.html">Originals Kaval Wind breaker Winter Jacket eu...</a></h4>
+                                            <h4 class="product-title"><a asp-controller="product" asp-action="detail" asp-route-id="@Model.Products[i].Id">@Model.Products[i].ProductName.Substring(0, 30)...</a></h4>
                                         <div class="product-price">
-                                            <span class="regular-price ">€23.90</span>
-                                            <span class="price-sale">€21.90</span>
+                                            @if (Model.Products[i].Discount == 0)
+                                            {
+                                                <span class="price-sale">€@Model.Products[i].Price</span>  
+                                            }
+                                            else
+                                            {
+                                                <span class="regular-price">@Model.Products[i].Price</span>
+                                                <span class="price-sale">€@((Model.Products[i].Price - (Model.Products[i].Price/100*Model.Products[i].Discount)).ToString().Substring(0,4))</span> 
+                                            }
                                         </div>
                                     </div>
                                 </div> <!-- single product -->

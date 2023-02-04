@@ -9,7 +9,7 @@ namespace AllUpBack.Models
         public int Id { get; set; }
         public string ProductName { get; set; }
         public double Price { get; set; }
-        public int? Discount { get; set; }
+        public int Discount { get; set; }
         public int Stars { get; set; }
         public int Count { get; set; }
         public string ProductCode { get; set; }
