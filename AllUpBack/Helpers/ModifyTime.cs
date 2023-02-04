@@ -2,13 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 
-namespace AllUpBack.Models
+namespace AllUpBack.Helpers
 {
-    public class AppUser : IdentityUser
+    public class ModifyTime
     {
-        public string FullName { get; set; }
         public DateTime CreatedTime { get; set; }
         public DateTime LastModifiedTime { get; set; }
         public DateTime? DeletedTime { get; set; }

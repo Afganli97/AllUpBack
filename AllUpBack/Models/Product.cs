@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using AllUpBack.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace AllUpBack.Models
 {
-    public class Product
+    public class Product : ModifyTime
     {
         public int Id { get; set; }
         public string ProductName { get; set; }
