@@ -41,5 +41,9 @@ namespace AllUpBack.Models
         public int? BannerId { get; set; }
         public Banner Banner { get; set; }
 
+        [ForeignKey(nameof(Bio))]
+        public int? BioId { get; set; }
+        public Bio Bio { get; set; }
+
     }
 }

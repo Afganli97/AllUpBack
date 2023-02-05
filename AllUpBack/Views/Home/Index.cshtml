@@ -60,7 +60,7 @@
                 </div>
             </div> <!-- row -->
             <div class="row category-active">
-                @for (int i = 0; i < Model.Categories.Count; i+=2)
+                @* @for (int i = 0; i < Model.Categories.Count; i+=2)
                 {
                     <div class="col-lg-2">
                     @for (int j = 0; j < 2; j++)
@@ -74,7 +74,7 @@
                         <span class="d-none">@(k++)</span>
                     }
                     </div>
-                }
+                } *@
                 
             </div> <!-- row -->
         </div> <!-- container -->
@@ -128,10 +128,10 @@
                                     </div>
                                     <div class="product-content">
                                         <ul class="product-rating">
-                                            @for (int l = 0; l < 5; l++)
+                                            @* @for (int l = 0; l < 5; l++)
                                             {
                                                 <li class=@(l<Model.Products[i].Stars?"rating-on":"rating-off")><i class="fas fa-star"></i></li>
-                                            }
+                                            } *@
                                         </ul>
                                             <h4 class="product-title"><a asp-controller="product" asp-action="detail" asp-route-id="@Model.Products[i].Id">@Model.Products[i].ProductName.Substring(0, 30)...</a></h4>
                                         <div class="product-price">

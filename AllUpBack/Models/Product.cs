@@ -16,11 +16,12 @@ namespace AllUpBack.Models
         public string ProductCode { get; set; }
         public string Description { get; set; }
         public List<Image> Images { get; set; }
-        public List<Tag> Tags { get; set; }
+        public List<ProductTag> ProductTags { get; set; }
         public Slider Slider { get; set; }
         public Banner Banner { get; set; }
-
-
+        public List<ProductColor> ProductColors { get; set; }
+        public List<ProductSize> ProductSizes { get; set; }
+        public List<ProductComposition> ProductCompositions { get; set; }
 
     }
 }

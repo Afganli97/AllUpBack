@@ -12,6 +12,6 @@ namespace AllUpBack.Models
         public string Text { get; set; }
         public int MyProperty { get; set; }
         public List<Image> Images { get; set; }
-        public List<Tag> Tags { get; set; }
+        public List<BlogTag> BlogTags { get; set; }
     }
 }
