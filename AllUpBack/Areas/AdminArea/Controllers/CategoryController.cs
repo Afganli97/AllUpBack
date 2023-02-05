@@ -1,4 +1,5 @@
 ﻿using AllUpBack.DAL;
+using AllUpBack.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 namespace AllUpBack.Areas.AdminArea.Controllers
 {
     [Area("AdminArea")]
-    [Authorize(Roles = "admin")]
+    //[Authorize(Roles = "admin")]
     public class CategoryController : Controller
     {
         private readonly DataBase _context;
@@ -16,32 +17,31 @@ namespace AllUpBack.Areas.AdminArea.Controllers
         {
             _context = context;
         }
-
         
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Add()
+        public IActionResult Create()
         {
             return View();
         }
 
-        // [HttpPost]
-        // [AutoValidateAntiforgeryToken]
-        // public IActionResult Add()
-        // {
-        //     // if (!ModelState.IsValid) return View();
-        //     // if (_context.Categories.Any(c=>c.Name.ToLower() == category.Name.ToLower()))
-        //     // {
-        //     //     ModelState.AddModelError("Name", "This name already exist!");
-        //     //     return View();
-        //     // }
-        //     // _context.Categories.Add(category);
-        //     // _context.SaveChanges();
-        //     return RedirectToAction("Index");
-        // }
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult Create(Category category)
+        {
+            if (!ModelState.IsValid) return View();
+            if (_context.Categories.Any(c=>c.CategoryName.ToLower() == category.CategoryName.ToLower()))
+            {
+                ModelState.AddModelError("Name", "This name already exist!");
+                return View();
+            }
+            _context.Categories.Add(category);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
         public IActionResult Info(int? id)
         {
