@@ -12,10 +12,7 @@ namespace AllUpBack.Models
         public int Id { get; set; }
         public string CategoryName { get; set; }
         public string Url { get; set; }
-        public int? ParentCategoryId { get; set; }
-        [NotMapped]
-        [Required]
-        public IFormFile Photo { get; set; }
+        public List<Image> Images { get; set; }
 
     }
 }

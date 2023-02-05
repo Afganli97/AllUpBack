@@ -3,6 +3,7 @@ using System;
 using AllUpBack.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AllUpBack.Migrations
 {
     [DbContext(typeof(DataBase))]
-    partial class DataBaseModelSnapshot : ModelSnapshot
+    [Migration("20230204144549_CreatePartnersTable")]
+    partial class CreatePartnersTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.13");
@@ -125,6 +127,9 @@ namespace AllUpBack.Migrations
                     b.Property<DateTime?>("DeletedTime")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("LastModifiedTime")
                         .HasColumnType("TEXT");
 
@@ -151,6 +156,9 @@ namespace AllUpBack.Migrations
                     b.Property<string>("CategoryName")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("ParentCategoryId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Url")
                         .HasColumnType("TEXT");
 
@@ -165,31 +173,16 @@ namespace AllUpBack.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("BlogId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("ImageUrl")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsMain")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("PartnerId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BlogId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("PartnerId");
 
                     b.HasIndex("ProductId");
 
@@ -201,6 +194,9 @@ namespace AllUpBack.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("LogoUrl")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -434,27 +430,11 @@ namespace AllUpBack.Migrations
 
             modelBuilder.Entity("AllUpBack.Models.Image", b =>
                 {
-                    b.HasOne("AllUpBack.Models.Blog", "Blog")
-                        .WithMany("Images")
-                        .HasForeignKey("BlogId");
-
-                    b.HasOne("AllUpBack.Models.Category", "Category")
-                        .WithMany("Images")
-                        .HasForeignKey("CategoryId");
-
-                    b.HasOne("AllUpBack.Models.Partner", "Partner")
-                        .WithMany("Images")
-                        .HasForeignKey("PartnerId");
-
                     b.HasOne("AllUpBack.Models.Product", "Product")
                         .WithMany("Images")
-                        .HasForeignKey("ProductId");
-
-                    b.Navigation("Blog");
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Partner");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Product");
                 });
@@ -530,21 +510,6 @@ namespace AllUpBack.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("AllUpBack.Models.Blog", b =>
-                {
-                    b.Navigation("Images");
-                });
-
-            modelBuilder.Entity("AllUpBack.Models.Category", b =>
-                {
-                    b.Navigation("Images");
-                });
-
-            modelBuilder.Entity("AllUpBack.Models.Partner", b =>
-                {
-                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("AllUpBack.Models.Product", b =>

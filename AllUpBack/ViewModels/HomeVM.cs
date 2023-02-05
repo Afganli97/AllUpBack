@@ -13,6 +13,9 @@ namespace AllUpBack.ViewModels
         public List<Category> Categories { get; set; }
         public List<Product> Products { get; set; }
         public List<Image> Images { get; set; }
+        public List<Blog> Blogs { get; set; }
+        public List<Partner> Partners { get; set; }
+
 
 
 
