@@ -20,7 +20,9 @@ namespace AllUpBack.Areas.AdminArea.Controllers
         
         public IActionResult Index()
         {
-            return View();
+            var categories = _context.Categories.ToList();
+            if(categories == null) return View();
+            return View(categories);
         }
 
         public IActionResult Create()

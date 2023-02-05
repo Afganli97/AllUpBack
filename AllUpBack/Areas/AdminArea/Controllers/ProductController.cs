@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AllUpBack.Areas.AdminArea.Controllers
 {
     [Area("adminarea")]
-    [Authorize(Roles = "admin")]
+    //[Authorize(Roles = "admin")]
     public class ProductController : Controller
     {
         private readonly DataBase _context;

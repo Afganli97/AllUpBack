@@ -8,7 +8,7 @@
         public int HotlineNumber { get; set; }
         public string Email { get; set; }
         public string OpenTime { get; set; }
-        public string CsoseTime { get; set; }
+        public string CloseTime { get; set; }
 
     }
 }

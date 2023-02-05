@@ -6,7 +6,7 @@ namespace FrontToBack.Areas.AdminArea.Controllers
     public class DashboardController : Controller
     {
         [Area("AdminArea")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public IActionResult Index()
         {
             return View();

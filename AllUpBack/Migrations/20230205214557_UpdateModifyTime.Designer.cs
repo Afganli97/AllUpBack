@@ -3,6 +3,7 @@ using System;
 using AllUpBack.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AllUpBack.Migrations
 {
     [DbContext(typeof(DataBase))]
-    partial class DataBaseModelSnapshot : ModelSnapshot
+    [Migration("20230205214557_UpdateModifyTime")]
+    partial class UpdateModifyTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.13");
@@ -122,7 +124,7 @@ namespace AllUpBack.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -150,9 +152,6 @@ namespace AllUpBack.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Author")
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("TEXT");
 
@@ -164,6 +163,9 @@ namespace AllUpBack.Migrations
 
                     b.Property<DateTime>("LastModifiedTime")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("MyProperty")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Text")
                         .HasColumnType("TEXT");
@@ -182,10 +184,10 @@ namespace AllUpBack.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("BlogId")
+                    b.Property<int>("BlogId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("TagId")
+                    b.Property<int>("TagId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -260,7 +262,7 @@ namespace AllUpBack.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Author")
+                    b.Property<string>("AuthorName")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedTime")
@@ -306,7 +308,7 @@ namespace AllUpBack.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("CloseTime")
+                    b.Property<string>("CsoseTime")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -460,10 +462,10 @@ namespace AllUpBack.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ColorId")
+                    b.Property<int>("ColorId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -481,10 +483,10 @@ namespace AllUpBack.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("CompositionId")
+                    b.Property<int>("CompositionId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -502,10 +504,10 @@ namespace AllUpBack.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("SizeId")
+                    b.Property<int>("SizeId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -523,10 +525,10 @@ namespace AllUpBack.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("TagId")
+                    b.Property<int>("TagId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -561,7 +563,7 @@ namespace AllUpBack.Migrations
                     b.Property<string>("ProductDesc")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Text")
@@ -721,7 +723,9 @@ namespace AllUpBack.Migrations
                 {
                     b.HasOne("AllUpBack.Models.Product", "Product")
                         .WithOne("Banner")
-                        .HasForeignKey("AllUpBack.Models.Banner", "ProductId");
+                        .HasForeignKey("AllUpBack.Models.Banner", "ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Product");
                 });
@@ -730,11 +734,15 @@ namespace AllUpBack.Migrations
                 {
                     b.HasOne("AllUpBack.Models.Blog", "Blog")
                         .WithMany("BlogTags")
-                        .HasForeignKey("BlogId");
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("AllUpBack.Models.Tag", "Tag")
                         .WithMany("BlogTags")
-                        .HasForeignKey("TagId");
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Blog");
 
@@ -807,11 +815,15 @@ namespace AllUpBack.Migrations
                 {
                     b.HasOne("AllUpBack.Models.Color", "Color")
                         .WithMany("ProductColors")
-                        .HasForeignKey("ColorId");
+                        .HasForeignKey("ColorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("AllUpBack.Models.Product", "Product")
                         .WithMany("ProductColors")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Color");
 
@@ -822,11 +834,15 @@ namespace AllUpBack.Migrations
                 {
                     b.HasOne("AllUpBack.Models.Composition", "Composition")
                         .WithMany("ProductCompositions")
-                        .HasForeignKey("CompositionId");
+                        .HasForeignKey("CompositionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("AllUpBack.Models.Product", "Product")
                         .WithMany("ProductCompositions")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Composition");
 
@@ -837,11 +853,15 @@ namespace AllUpBack.Migrations
                 {
                     b.HasOne("AllUpBack.Models.Product", "Product")
                         .WithMany("ProductSizes")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("AllUpBack.Models.Size", "Size")
                         .WithMany("ProductSizes")
-                        .HasForeignKey("SizeId");
+                        .HasForeignKey("SizeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Product");
 
@@ -852,11 +872,15 @@ namespace AllUpBack.Migrations
                 {
                     b.HasOne("AllUpBack.Models.Product", "Product")
                         .WithMany("ProductTags")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("AllUpBack.Models.Tag", "Tag")
                         .WithMany("ProductTags")
-                        .HasForeignKey("TagId");
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Product");
 
@@ -867,7 +891,9 @@ namespace AllUpBack.Migrations
                 {
                     b.HasOne("AllUpBack.Models.Product", "Product")
                         .WithOne("Slider")
-                        .HasForeignKey("AllUpBack.Models.Slider", "ProductId");
+                        .HasForeignKey("AllUpBack.Models.Slider", "ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Product");
                 });
