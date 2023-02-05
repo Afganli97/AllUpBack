@@ -15,7 +15,7 @@ namespace AllUpBack.Controllers
             return View();
         }
 
-        public IActionResult Buy()
+        public IActionResult Checkout()
         {
             return View();
         }

@@ -31,7 +31,7 @@ namespace AllUpBack.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Advantages");
+                    b.ToTable("Advantages", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.AppUser", b =>
@@ -124,7 +124,7 @@ namespace AllUpBack.Migrations
                     b.HasIndex("ProductId")
                         .IsUnique();
 
-                    b.ToTable("Banners");
+                    b.ToTable("Banners", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.Bio", b =>
@@ -135,7 +135,7 @@ namespace AllUpBack.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bios");
+                    b.ToTable("Bios", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.Blog", b =>
@@ -164,7 +164,7 @@ namespace AllUpBack.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Blogs");
+                    b.ToTable("Blogs", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.BlogTag", b =>
@@ -185,7 +185,7 @@ namespace AllUpBack.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("BlogTags");
+                    b.ToTable("BlogTags", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.Brand", b =>
@@ -199,7 +199,7 @@ namespace AllUpBack.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.Category", b =>
@@ -216,7 +216,7 @@ namespace AllUpBack.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.Color", b =>
@@ -230,7 +230,7 @@ namespace AllUpBack.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Colors");
+                    b.ToTable("Colors", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.Comment", b =>
@@ -256,7 +256,7 @@ namespace AllUpBack.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.Composition", b =>
@@ -270,7 +270,7 @@ namespace AllUpBack.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Compositions");
+                    b.ToTable("Compositions", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.Contact", b =>
@@ -299,7 +299,7 @@ namespace AllUpBack.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.Image", b =>
@@ -362,7 +362,7 @@ namespace AllUpBack.Migrations
                     b.HasIndex("SliderId")
                         .IsUnique();
 
-                    b.ToTable("Images");
+                    b.ToTable("Images", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.Partner", b =>
@@ -373,7 +373,7 @@ namespace AllUpBack.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Partners");
+                    b.ToTable("Partners", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.Product", b =>
@@ -424,7 +424,7 @@ namespace AllUpBack.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.ProductColor", b =>
@@ -445,7 +445,7 @@ namespace AllUpBack.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductColors");
+                    b.ToTable("ProductColors", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.ProductComposition", b =>
@@ -466,7 +466,7 @@ namespace AllUpBack.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductCompositions");
+                    b.ToTable("ProductCompositions", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.ProductSize", b =>
@@ -487,7 +487,7 @@ namespace AllUpBack.Migrations
 
                     b.HasIndex("SizeId");
 
-                    b.ToTable("ProductSizes");
+                    b.ToTable("ProductSizes", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.ProductTag", b =>
@@ -508,7 +508,7 @@ namespace AllUpBack.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("ProductTags");
+                    b.ToTable("ProductTags", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.Size", b =>
@@ -522,7 +522,7 @@ namespace AllUpBack.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sizes");
+                    b.ToTable("Sizes", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.Slider", b =>
@@ -545,7 +545,7 @@ namespace AllUpBack.Migrations
                     b.HasIndex("ProductId")
                         .IsUnique();
 
-                    b.ToTable("Sliders");
+                    b.ToTable("Sliders", (string)null);
                 });
 
             modelBuilder.Entity("AllUpBack.Models.Tag", b =>
@@ -559,7 +559,7 @@ namespace AllUpBack.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

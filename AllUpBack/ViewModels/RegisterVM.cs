@@ -18,5 +18,7 @@ namespace AllUpBack.ViewModels
         public string Password { get; set; }
         [Required, DataType(DataType.Password), Compare(nameof(Password))]
         public string RepeatPassword { get; set; }
+        public bool IsSubscribed { get; set; }
+
     }
 }
