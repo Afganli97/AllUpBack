@@ -8,7 +8,11 @@ namespace AllUpBack.Models
         public string TagName { get; set; }
         
         [ForeignKey(nameof(Product))]
-        public int ProductId { get; set; }
+        public int? ProductId { get; set; }
         public Product Product { get; set; }
+
+        [ForeignKey(nameof(Blog))]
+        public int? BlogId { get; set; }
+        public Blog Blog { get; set; }
     }
 }

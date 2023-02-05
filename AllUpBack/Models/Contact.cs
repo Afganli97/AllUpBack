@@ -7,5 +7,8 @@
         public int MobileNumber { get; set; }
         public int HotlineNumber { get; set; }
         public string Email { get; set; }
+        public string OpenTime { get; set; }
+        public string CsoseTime { get; set; }
+
     }
 }

@@ -21,7 +21,7 @@ public class HomeController : Controller
         homeVM.Sliders = _context.Sliders.ToList();
         homeVM.Banners = _context.Banners.ToList();
         homeVM.Categories = _context.Categories.ToList();
-        homeVM.Products = _context.Products.Include(x=>x.Images).ToList();
+        homeVM.Products = _context.Products.Include(x=>x.Images.Where(i=>i.ProductId!= null)).ToList();
         homeVM.Blogs = _context.Blogs.ToList();
         homeVM.Partners = _context.Partners.ToList();
         return View(homeVM);

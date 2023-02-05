@@ -10,16 +10,13 @@ namespace AllUpBack.Models
     public class Slider
     {
         public int Id { get; set; }
-        public string Url { get; set; }
         public string ProductDesc { get; set; }
         public string Text { get; set; }
         
         [ForeignKey(nameof(Product))]
         public int ProductId { get; set; }
         public Product Product { get; set; }
+        public Image Image { get; set; }
         
-        [NotMapped]
-        [Required]
-        public IFormFile Photo { get; set; }
     }
 }

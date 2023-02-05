@@ -22,6 +22,9 @@ namespace AllUpBack.DAL
         public DbSet<Image> Images { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Partner> Partners { get; set; }
+        public DbSet<Advantage> Advantages { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+
 
 
         public override int SaveChanges()

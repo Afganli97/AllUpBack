@@ -10,14 +10,10 @@ namespace AllUpBack.Models
     public class Banner
     {
         public int Id { get; set; }
-        public string Url { get; set; }
         
         [ForeignKey(nameof(Product))]
         public int ProductId { get; set; }
         public Product Product { get; set; }
-
-        [NotMapped]
-        [Required]
-        public IFormFile Photo { get; set; }
+        public Image Image { get; set; }
     }
 }

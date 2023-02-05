@@ -6,6 +6,6 @@ namespace AllUpBack.Models
     public class Partner
     {
         public int Id { get; set; }
-        public List<Image> Images { get; set; }
+        public Image Image { get; set; }
     }
 }

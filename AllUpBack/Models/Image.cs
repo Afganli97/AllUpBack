@@ -29,5 +29,17 @@ namespace AllUpBack.Models
         public int? CategoryId { get; set; }
         public Category Category { get; set; }
 
+        [ForeignKey(nameof(Slider))]
+        public int? SliderId { get; set; }
+        public Slider Slider { get; set; }
+
+        [ForeignKey(nameof(Advantage))]
+        public int? AdvantageId { get; set; }
+        public Advantage Advantage { get; set; }
+
+        [ForeignKey(nameof(Banner))]
+        public int? BannerId { get; set; }
+        public Banner Banner { get; set; }
+
     }
 }

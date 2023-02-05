@@ -13,6 +13,7 @@ namespace AllUpBack.Models
         public string CategoryName { get; set; }
         public string Url { get; set; }
         public List<Image> Images { get; set; }
+        public List<Product> Products { get; set; }
 
     }
 }
