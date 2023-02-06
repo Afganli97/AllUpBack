@@ -1,5 +1,6 @@
 ﻿using AllUpBack.DAL;
 using AllUpBack.Models;
+using AllUpBack.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -27,7 +28,16 @@ namespace AllUpBack.Areas.AdminArea.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            var list = new List<Category>();
+            foreach (var item in _context.Categories.ToList())
+            {
+                foreach (var cat in _context.Categories.ToList())
+                {
+                    if (item.Id == cat.MainCategory)
+                        list.Add(item);
+                }
+            }
+            return View(list);
         }
 
         [HttpPost]

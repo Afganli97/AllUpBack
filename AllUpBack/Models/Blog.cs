@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using AllUpBack.Helpers;
-using AllUpBack.Interfaces;
 
 namespace AllUpBack.Models
 {
