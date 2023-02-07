@@ -7,6 +7,12 @@ namespace AllUpBack.Models
 {
     public class Product : ModifyTime
     {
+        public Product()
+        {
+            IsDeleted = false;
+            CreatedTime = DateTime.Now;
+            LastModifiedTime = DateTime.Now;
+        }
         public int Id { get; set; }
         public string ProductName { get; set; }
         public double Price { get; set; }
