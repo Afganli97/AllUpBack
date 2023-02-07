@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AllUpBack.DAL;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AllUpBack.Components
 {
@@ -16,9 +17,20 @@ namespace AllUpBack.Components
             _context = context;
         }
 
-        public IViewComponentResult Invoke(string arg)
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View(arg, _context.Categories.ToList());
+            var categories = await _context.Categories.ToListAsync();
+            foreach (var item in categories)
+            {
+                foreach (var sub in categories)
+                {
+                    if (item.Id == sub.MainCategory)
+                    {
+                        item.SubCategories.Add(sub);
+                    }
+                }
+            }
+            return View(categories);
         }
     }
 }

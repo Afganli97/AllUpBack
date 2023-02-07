@@ -1,5 +1,5 @@
-
 @model List<Category>
+
 <div class="col-lg-3">
     <div class="header-menu-vertical">
         <h4 class="menu-title">
@@ -12,47 +12,24 @@
                 if (item.MainCategory == null)
                 {
                     <li class="menu-item">
-                        <a asp-controller="product" asp-action="index" asp-route-id="@item.Id">@item.CategoryName <i class="fal fa-chevron-right"></i></a>
+                        <a asp-controller="product" asp-action="index" asp-route-categoryId="@item.Id">@item.CategoryName <i class="fal fa-chevron-right"></i></a>
                         <ul class="sub-menu flex-wrap">
-                        @foreach (var sub in Model)
+                        @foreach (var sub in item.SubCategories)
                         {
-                            @if (sub.MainCategory != null && (Model.Find(x=>x.MainCategory == sub.Id))!= null)
-                            {
-                                <li>
-                                    <a asp-controller="product" asp-action="index" asp-route-id="@item.Id"><span>@sub.CategoryName</span></a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li>
-                                    <ul class="submenu-item ">
-                                        @foreach (var subSub in Model)
-                                        {
-                                            if (sub.Id == subSub.MainCategory)
-                                            {
-                                                <li><a asp-controller="product" asp-action="index" asp-route-id="@item.Id">@subSub.CategoryName</a></li>    
-                                            }
-                                        }
-                                    </ul>
-                                </li>
-                            }
+                            <li>
+                                <a asp-controller="product" asp-action="index" asp-route-categoryId="@sub.Id"><span>@sub.CategoryName</span></a>
+                                <ul class="submenu-item ">
+                                    @foreach (var subSub in sub.SubCategories)
+                                    {
+                                        <li><a asp-controller="product" asp-action="index" asp-route-categoryId="@subSub.Id">@subSub.CategoryName</a></li>
+                                    }
+                                </ul>
+                            </li>
                         }
                         </ul>
                     </li>
                 }
             }
-            
-            <li class="menu-item">
-                <a href="#">Computer <i class="fal fa-chevron-right"></i></a>
-                <ul class="sub-menu flex-wrap">
-                    <li>
-                        <a href="#"><span>Accessories & Parts</span></a>
-                        <ul class="submenu-item ">
-                            <li><a href="shop-left-sidebar.html">Cables & Adapters</a></li>
-                        </ul>
-                    </li>
-                </ul> <!-- sub menu -->
-            </li>
         </ul> <!-- menu content -->
     </div> <!-- header menu vertical -->
 </div>

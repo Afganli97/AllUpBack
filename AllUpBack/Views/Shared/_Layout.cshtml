@@ -1,4 +1,5 @@
-﻿<!doctype html>
+﻿@using AllUpBack.Components
+<!doctype html>
 <html class="no-js" lang="en">
 
 
@@ -314,7 +315,7 @@
             <div class="header-menu">
                 <div class="container-fluid custom-container">
                     <div class="row">
-                        @await Component.InvokeAsync("CategoryNav")
+                        @await Component.InvokeAsync(typeof(CategoryNav))
 
                         <div class="col-lg-9 position-static">
                             <div class="header-horizontal-menu">
