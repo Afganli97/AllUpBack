@@ -1,8 +1,10 @@
 ﻿using AllUpBack.DAL;
 using AllUpBack.Models;
 using AllUpBack.ViewModels;
+using FrontToBack.Helpers.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,31 +15,44 @@ namespace AllUpBack.Areas.AdminArea.Controllers
     public class CategoryController : Controller
     {
         private readonly DataBase _context;
+        private readonly IWebHostEnvironment _env;
 
-        public CategoryController(DataBase context)
+        public CategoryController(DataBase context, IWebHostEnvironment env = null)
         {
             _context = context;
+            _env = env;
         }
-        
+
         public IActionResult Index()
         {
-            var categories = _context.Categories.ToList();
-            if(categories == null) return View();
+            var categories = _context.Categories.ToList(); 
+            foreach (var item in categories)
+            {
+                foreach (var sub in categories)
+                {
+                    if (item.Id == sub.MainCategory)
+                    {
+                        item.SubCategories.Add(sub);
+                    }
+                }
+            }
             return View(categories);
         }
 
         public IActionResult Create()
         {
-            var list = new List<Category>();
-            foreach (var item in _context.Categories.ToList())
+            var categories = _context.Categories.ToList(); 
+            foreach (var item in categories)
             {
-                foreach (var cat in _context.Categories.ToList())
+                foreach (var sub in categories)
                 {
-                    if (item.Id == cat.MainCategory)
-                        list.Add(item);
+                    if (item.Id == sub.MainCategory)
+                    {
+                        item.SubCategories.Add(sub);
+                    }
                 }
             }
-            return View(list);
+            return View(categories);
         }
 
         [HttpPost]
@@ -50,10 +65,26 @@ namespace AllUpBack.Areas.AdminArea.Controllers
                 ModelState.AddModelError("Name", "This name already exist!");
                 return View();
             }
+            
+            
             _context.Categories.Add(category);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("AddPhoto", new {id = });
         }
+
+        // public IActionResult AddPhoto(IFormFile photo)
+        // {
+        //     if (ModelState["Photo"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+        //         return View();
+        //     if(!category.Image.Photo.CheckFile("image"))
+        //         ModelState.AddModelError("Photo", "Select Photo");
+        //     if(category.Image.Photo.CheckFileLength(1000))
+        //         ModelState.AddModelError("Photo", "Selected photo length is so much");
+
+        //     category.Image.Photo.SaveFile(_env, "img");
+        //     category.Image.ImageUrl = category.Image.Photo.FileName;
+        //     category.Image.IsMain = true;
+        // }
 
         public IActionResult Info(int? id)
         {

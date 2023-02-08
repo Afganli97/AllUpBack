@@ -10,7 +10,7 @@
             <h4 class="card-title">Horizontal Form</h4>
             <p class="card-description"> Horizontal form layout </p>
             <div class="text-danger" asp-validation-summary="All"></div>
-            <form method="post" class="forms-sample">
+            <form method="post" class="forms-sample" enctype="multipart/form-data">
                 <div class="form-group row">
                     <label for="CategoryName" class="col-sm-3 col-form-label">Name</label>
                     <div class="col-sm-9">
@@ -18,19 +18,22 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <select>
-                        <option value="0">All categories</option>
-                        <option value="12">Laptop</option>
+                    <label for="MainCategory" class="col-sm-3 col-form-label">Select main category</label>
+                    <select name="MainCategory">
+                        <option value="0">Main category</option>
+                        @foreach (var item in Model)
+                        {
+                            if (item.SubCategories.Any())
+                            {
+                                <option value="@item.Id">@item.CategoryName</option>
+                            }
+                        }
                     </section>
                 </div>
                 <div class="form-group row">
-                    <label for="Image.Photo" class="col-sm-3 col-form-label"></label>
-                    <div class="col-sm-9">
-                        <input for="Image.Photo" class="form-control" accept="image/*">
-                    </div>
+                    <input type="submit" class="btn btn-primary mr-2"value="Submit"/>
+                    <button asp-action="index" class="btn btn-light">Cancel</button>
                 </div>
-                <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                <button asp-action="index" class="btn btn-light">Cancel</button>
             </form>
         </div>
     </div>
