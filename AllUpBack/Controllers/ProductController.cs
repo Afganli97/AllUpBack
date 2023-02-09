@@ -25,8 +25,8 @@ namespace AllUpBack.Controllers
             var allProducts = _context.Products.Include(x=>x.Images).ToList();
 
             if (categoryId == null) return View(allProducts);
-            var category = _context.Categories.Include(x=>x.Products).ThenInclude(x=>x.Images).FirstOrDefault(x=>x.Id == categoryId);
-            if(_context.Categories.Find(categoryId)==null) return View(allProducts);
+            var category = _context.Categories.Include(x=>x.Products).ThenInclude(x=>x.Images).Include(c=>c.SubCategories).FirstOrDefault(x=>x.Id == categoryId);
+            if(category==null) return View(allProducts);
 
             var desiredProducts = new List<Product>();
             desiredProducts.AddRange(category.Products);

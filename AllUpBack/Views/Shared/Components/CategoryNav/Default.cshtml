@@ -9,7 +9,7 @@
         <ul class="menu-content menu-expand">
             @foreach (var item in Model)
             {
-                if (item.MainCategory == null)
+                if (item.ParentId == null)
                 {
                     <li class="menu-item">
                         <a asp-controller="product" asp-action="index" asp-route-categoryId="@item.Id">@item.CategoryName <i class="fal fa-chevron-right"></i></a>

@@ -20,16 +20,6 @@ namespace AllUpBack.Components
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var categories = await _context.Categories.ToListAsync();
-            foreach (var item in categories)
-            {
-                foreach (var sub in categories)
-                {
-                    if (item.Id == sub.MainCategory)
-                    {
-                        item.SubCategories.Add(sub);
-                    }
-                }
-            }
             return View(categories);
         }
     }

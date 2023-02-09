@@ -17,18 +17,32 @@
                         <input name="CategoryName" class="form-control"  placeholder="Category Name">
                     </div>
                 </div>
+
                 <div class="form-group row">
-                    <label for="MainCategory" class="col-sm-3 col-form-label">Select main category</label>
-                    <select name="MainCategory">
-                        <option value="0">Main category</option>
+                    <label for="ParentId" class="col-sm-3 col-form-label">Select main category</label>
+                    <select name="ParentId">
+                        <option value="">Main category</option>
                         @foreach (var item in Model)
                         {
-                            if (item.SubCategories.Any())
+                            @if (item.SubCategories.Any())
                             {
                                 <option value="@item.Id">@item.CategoryName</option>
+                                    @foreach (var sub in item.SubCategories)
+                                    {
+                                        @if (sub.SubCategories.Any())
+                                        {
+                                            <option value="@sub.Id">--@sub.CategoryName</option>
+                                        }
+                                    }
                             }
                         }
                     </section>
+                </div>
+                <div class="form-group row">
+                    <label for="Photo" class="col-sm-3 col-form-label">Select image</label>
+                    <div class="col-sm-9">
+                        <input name="Photo" accept="image/*" type="file"/>
+                    </div>
                 </div>
                 <div class="form-group row">
                     <input type="submit" class="btn btn-primary mr-2"value="Submit"/>

@@ -26,38 +26,21 @@ namespace AllUpBack.Areas.AdminArea.Controllers
         public IActionResult Index()
         {
             var categories = _context.Categories.ToList(); 
-            foreach (var item in categories)
-            {
-                foreach (var sub in categories)
-                {
-                    if (item.Id == sub.MainCategory)
-                    {
-                        item.SubCategories.Add(sub);
-                    }
-                }
-            }
             return View(categories);
         }
 
         public IActionResult Create()
         {
             var categories = _context.Categories.ToList(); 
-            foreach (var item in categories)
-            {
-                foreach (var sub in categories)
-                {
-                    if (item.Id == sub.MainCategory)
-                    {
-                        item.SubCategories.Add(sub);
-                    }
-                }
-            }
+
+
+            
             return View(categories);
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Create(Category category)
+        public IActionResult Create(Category category, IFormFile Photo)
         {
             if (!ModelState.IsValid) return View();
             if (_context.Categories.Any(c=>c.CategoryName.ToLower() == category.CategoryName.ToLower()))
@@ -65,13 +48,33 @@ namespace AllUpBack.Areas.AdminArea.Controllers
                 ModelState.AddModelError("Name", "This name already exist!");
                 return View();
             }
+
+            if (ModelState["Photo"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+                return View();
+            if(!Photo.CheckFile("image"))
+                ModelState.AddModelError("Photo", "Select Photo");
+            if(Photo.CheckFileLength(10000))
+                ModelState.AddModelError("Photo", "Selected photo length is so much");
+
+            category.Image = new Image();
+
+            Photo.SaveFile(_env, "assets/images");
+            category.Image.ImageUrl = Photo.FileName;
+            category.Image.IsMain = true;
             
             
             _context.Categories.Add(category);
             _context.SaveChanges();
-            return RedirectToAction("AddPhoto", new {id = });
+            return RedirectToAction("Index");
         }
 
+        public IActionResult AddPhoto(int? id)
+        {
+            if (id == null) return View();
+            return View(id);
+        }
+
+        // [HttpPost]
         // public IActionResult AddPhoto(IFormFile photo)
         // {
         //     if (ModelState["Photo"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)

@@ -16,9 +16,10 @@ namespace AllUpBack.Models
         }
         public int Id { get; set; }
         public string CategoryName { get; set; }
-        public int? MainCategory { get; set; }
+        public int? ParentId { get; set; }
         public Image Image { get; set; }
         public List<Product> Products { get; set; }
+        public Category Parent { get; set; }
         public List<Category> SubCategories { get; set; }
 
     }
