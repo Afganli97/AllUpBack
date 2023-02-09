@@ -23,6 +23,7 @@
                 <thead>
                     <tr>
                         <th> Category Name </th>
+                        <th> Is Deleted </th>
                         <th> Settings </th>
                     </tr>
                 </thead>
@@ -31,10 +32,11 @@
                     {
                         <tr>
                             <td class="py-1">@item.CategoryName</td>
+                            <td class="py-1">@item.IsDeleted</td>
                             <td>
                                 <a asp-area="adminarea" asp-controller="category" asp-action="info" asp-route-id="@item.Id" class="btn btn-outline-primary">Info</a>
                                 <a asp-action="update" asp-route-id="@item.Id" class="btn btn-outline-warning">Update</a>
-                                <a asp-action="delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete</a>
+                                <a asp-action="delete" asp-route-id="@item.Id" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete?')">Delete</a>
                             </td>
                         </tr>
                     }

@@ -25,22 +25,23 @@ namespace AllUpBack.Controllers
             var allProducts = _context.Products.Include(x=>x.Images).ToList();
 
             if (categoryId == null) return View(allProducts);
-            var category = _context.Categories.Include(x=>x.Products).ThenInclude(x=>x.Images).Include(c=>c.SubCategories).FirstOrDefault(x=>x.Id == categoryId);
+            var category = _context.Categories.Where(x=>x.IsDeleted == false).Include(x=>x.Products).ThenInclude(x=>x.Images).Include(c=>c.SubCategories).ThenInclude(x=>x.SubCategories).Where(x=>x.IsDeleted == false).FirstOrDefault(x=>x.Id == categoryId);
             if(category==null) return View(allProducts);
 
             var desiredProducts = new List<Product>();
-            desiredProducts.AddRange(category.Products);
+            
+            if(category.Products != null) desiredProducts.AddRange(category.Products);
 
             if (category.SubCategories != null)
             {   
                 foreach (var item in category.SubCategories)
                 {
-                    desiredProducts.AddRange(item.Products);
+                    if(item.Products != null) desiredProducts.AddRange(item.Products);
                     if (item.SubCategories != null)
                     {   
                         foreach (var sub in item.SubCategories)
                         {
-                            desiredProducts.AddRange(sub.Products);
+                            if(sub.Products != null) desiredProducts.AddRange(sub.Products);
                         }
                     }
                 }

@@ -19,7 +19,7 @@ namespace AllUpBack.Components
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var categories = await _context.Categories.ToListAsync();
+            var categories = await _context.Categories.Where(x=>x.IsDeleted == false).ToListAsync();
             return View(categories);
         }
     }

@@ -31,9 +31,7 @@ namespace AllUpBack.Areas.AdminArea.Controllers
 
         public IActionResult Create()
         {
-            var categories = _context.Categories.ToList(); 
-
-
+            var categories = _context.Categories.Where(x=>x.IsDeleted == false).ToList(); 
             
             return View(categories);
         }
@@ -74,72 +72,48 @@ namespace AllUpBack.Areas.AdminArea.Controllers
             return View(id);
         }
 
-        // [HttpPost]
-        // public IActionResult AddPhoto(IFormFile photo)
-        // {
-        //     if (ModelState["Photo"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
-        //         return View();
-        //     if(!category.Image.Photo.CheckFile("image"))
-        //         ModelState.AddModelError("Photo", "Select Photo");
-        //     if(category.Image.Photo.CheckFileLength(1000))
-        //         ModelState.AddModelError("Photo", "Selected photo length is so much");
-
-        //     category.Image.Photo.SaveFile(_env, "img");
-        //     category.Image.ImageUrl = category.Image.Photo.FileName;
-        //     category.Image.IsMain = true;
-        // }
-
         public IActionResult Info(int? id)
         {
-            // if (id == null) return NotFound();
-            // var category = _context.Categories.Find(id);
-            // if (category == null) return NotFound();
+            if (id == null) return NotFound();
+            var category = _context.Categories.Find(id);
+            if (category == null) return NotFound();
 
-            // return View(category);
-            return View();
+            return View(category);
         }
 
         public IActionResult Update(int? id)
         {
-            // if (id == null) return NotFound();
-            // var category = _context.Categories.Find(id);
-            // if (category == null) return NotFound();
+            if (id == null) return NotFound();
+            var category = _context.Categories.Find(id);
+            if (category == null) return NotFound();
 
-            // return View(category);
-            return View();
+            return View(category);
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Update()
+        public IActionResult Update(Category category)
         {
-            // if (!ModelState.IsValid) return View();
-            // if (_context.Categories.Any(c=>c.Name.ToLower() == category.Name.ToLower()))
-            // {
-            //     ModelState.AddModelError("Name", "This name already exist!");
-            //     return View(category);
-            // }
-            // _context.Categories.Find(category.Id).Name = category.Name;
-            // _context.Categories.Find(category.Id).Description = category.Description;
-            // _context.SaveChanges();
+            if (!ModelState.IsValid) return View();
+            if (_context.Categories.Any(c=>c.CategoryName.ToLower() == category.CategoryName.ToLower()))
+            {
+                ModelState.AddModelError("Name", "This name already exist!");
+                return View(category);
+            }
+            _context.Categories.Find(category.Id).CategoryName = category.CategoryName;
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int? id)
         {
-            // if (id == null) return NotFound();
-            // var category = _context.Categories.Find(id);
-            // if (category == null) return NotFound();
+            if (id == null) return NotFound();
+            var category = _context.Categories.Include(x=>x.Image).FirstOrDefault(x=>x.Id == id);
+            if (category == null) return NotFound();
 
-            // return View(category);
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Delete()
-        {
-            // _context.Categories.Remove(category);
-            // _context.SaveChanges();
+            category.IsDeleted = true;
+            category.DeletedTime = DateTime.Now;
+            _context.SaveChanges();
 
             return RedirectToAction("Index");
         }

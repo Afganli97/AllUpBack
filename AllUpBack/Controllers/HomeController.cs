@@ -20,7 +20,7 @@ public class HomeController : Controller
         HomeVM homeVM =  new HomeVM();
         homeVM.Sliders = _context.Sliders.ToList();
         homeVM.Banners = _context.Banners.ToList();
-        homeVM.Categories = _context.Categories.ToList();
+        homeVM.Categories = _context.Categories.Where(x=>x.IsDeleted == false).ToList();
         homeVM.Products = _context.Products.Include(x=>x.Images.Where(i=>i.ProductId!= null)).ToList();
         homeVM.Blogs = _context.Blogs.ToList();
         homeVM.Partners = _context.Partners.ToList();

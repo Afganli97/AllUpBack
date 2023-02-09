@@ -24,8 +24,7 @@ private readonly IWebHostEnvironment _env;
 
         public IActionResult Index()
         {
-            return View();
-            //return View(_context.Products.Include(p=>p.Images).ToList());
+            return View(_context.Products.Where(x=>x.IsDeleted).Include(p=>p.Images).ToList());
         }
 
         // public IActionResult Detail(int? id)
