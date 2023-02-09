@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AllUpBack.DAL;
+using AllUpBack.Models;
+using FrontToBack.Helpers.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +26,45 @@ private readonly IWebHostEnvironment _env;
 
         public IActionResult Index()
         {
-            return View(_context.Products.Where(x=>x.IsDeleted).Include(p=>p.Images).ToList());
+            return View(_context.Products.Include(p=>p.Images).ToList());
+        }
+
+        public IActionResult Create()
+        {
+            return View(_context.Categories.Where(x=>!x.IsDeleted).ToList());
+        }
+
+        [HttpPost]
+        public IActionResult Create(Product product, List<IFormFile> Photos)
+        {
+            if (!ModelState.IsValid) return View();
+            if (_context.Products.Any(c=>c.ProductName.ToLower() == product.ProductName.ToLower()))
+            {
+                ModelState.AddModelError("Name", "This name already exist!");
+                return View();
+            }
+
+            if (ModelState["Photo"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+                return View();
+            foreach (var Photo in Photos)
+            {
+                if(!Photo.CheckFile("image"))
+                    ModelState.AddModelError("Photo", "Select Photo");
+                if(Photo.CheckFileLength(10000))
+                    ModelState.AddModelError("Photo", "Selected photo length is so much");
+
+                product.Images = new List<Image>();
+
+                Photo.SaveFile(_env, "assets/images/product");
+                product.Images.FirstOrDefault().ImageUrl = Photo.FileName;
+                product.Images.FirstOrDefault().IsMain = true;
+            }
+            
+            
+            _context.Products.Add(product);
+            _context.SaveChanges();
+
+            return RedirectToAction("index");
         }
 
         // public IActionResult Detail(int? id)
