@@ -31,11 +31,13 @@ private readonly IWebHostEnvironment _env;
 
         public IActionResult Create()
         {
-            return View(_context.Categories.Where(x=>!x.IsDeleted).ToList());
+            var categories = _context.Categories.Where(x=>!x.IsDeleted).ToList();
+            ViewBag.Categories = categories;
+            return View();
         }
 
         [HttpPost]
-        public IActionResult Create(Product product, List<IFormFile> Photos)
+        public IActionResult Create(Product product)
         {
             if (!ModelState.IsValid) return View();
             if (_context.Products.Any(c=>c.ProductName.ToLower() == product.ProductName.ToLower()))
@@ -46,17 +48,17 @@ private readonly IWebHostEnvironment _env;
 
             if (ModelState["Photo"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
                 return View();
-            foreach (var Photo in Photos)
+            foreach (var image in product.Images)
             {
-                if(!Photo.CheckFile("image"))
+                if(!image.Photo.CheckFile("image"))
                     ModelState.AddModelError("Photo", "Select Photo");
-                if(Photo.CheckFileLength(10000))
+                if(image.Photo.CheckFileLength(10000))
                     ModelState.AddModelError("Photo", "Selected photo length is so much");
 
                 product.Images = new List<Image>();
 
-                Photo.SaveFile(_env, "assets/images/product");
-                product.Images.FirstOrDefault().ImageUrl = Photo.FileName;
+                image.Photo.SaveFile(_env, "assets/images/product");
+                product.Images.FirstOrDefault().ImageUrl = image.Photo.FileName;
                 product.Images.FirstOrDefault().IsMain = true;
             }
             

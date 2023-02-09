@@ -8,6 +8,10 @@ namespace AllUpBack.ViewModels
 {
     public class HomeVM
     {
+        public HomeVM()
+        {
+            Categories = new List<Category>();
+        }
         public List<Slider> Sliders { get; set; }
         public List<Banner> Banners { get; set; }
         public List<Category> Categories { get; set; }

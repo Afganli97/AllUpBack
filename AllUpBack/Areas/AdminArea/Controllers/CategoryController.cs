@@ -61,6 +61,7 @@ namespace AllUpBack.Areas.AdminArea.Controllers
             category.Image.IsMain = true;
             
             
+            
             _context.Categories.Add(category);
             _context.SaveChanges();
             return RedirectToAction("Index");

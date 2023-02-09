@@ -18,12 +18,19 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         HomeVM homeVM =  new HomeVM();
-        homeVM.Sliders = _context.Sliders.ToList();
-        homeVM.Banners = _context.Banners.ToList();
-        homeVM.Categories = _context.Categories.Where(x=>x.IsDeleted == false).ToList();
-        homeVM.Products = _context.Products.Include(x=>x.Images.Where(i=>i.ProductId!= null)).ToList();
-        homeVM.Blogs = _context.Blogs.ToList();
-        homeVM.Partners = _context.Partners.ToList();
+        homeVM.Sliders = _context.Sliders.Include(x=>x.Image).ToList();
+        homeVM.Banners = _context.Banners.Include(x=>x.Image).ToList();
+        homeVM.Products = _context.Products.Include(x=>x.Images).ToList();
+        homeVM.Blogs = _context.Blogs.Include(x=>x.Images).ToList();
+        homeVM.Partners = _context.Partners.Include(x=>x.Image).ToList();
+
+        foreach (var item in _context.Categories.Include(x=>x.SubCategories).ToList())
+        {
+            if (item.SubCategories != null)
+            {
+                homeVM.Categories.AddRange(item.SubCategories);
+            }
+        }
         return View(homeVM);
     }
 }

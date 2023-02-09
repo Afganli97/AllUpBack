@@ -1,0 +1,96 @@
+@model Product
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/AdminArea/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Horizontal Form</h4>
+            <p class="card-description"> Horizontal form layout </p>
+            <div class="text-danger" asp-validation-summary="All"></div>
+            <form method="post" class="forms-sample" enctype="multipart/form-data">
+                <div class="form-group row">
+                    <label asp-for="ProductName" class="col-sm-3 col-form-label">Product Name</label>
+                    <div class="col-sm-9">
+                        <input asp-for="ProductName" class="form-control"  placeholder="Product Name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Price" class="col-sm-3 col-form-label">Price</label>
+                    <div class="col-sm-9">
+                        <input asp-for="Price" type="number" class="form-control"  placeholder="Price">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Discount" class="col-sm-3 col-form-label">Discount</label>
+                    <div class="col-sm-9">
+                        <input asp-for="Discount" type="number" class="form-control"  placeholder="Discount">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Count" class="col-sm-3 col-form-label">Count</label>
+                    <div class="col-sm-9">
+                        <input asp-for="Count" type="number" class="form-control"  placeholder="Count">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="ProductCode" class="col-sm-3 col-form-label">Product Code</label>
+                    <div class="col-sm-9">
+                        <input asp-for="ProductCode" type="text" class="form-control"  placeholder="Product Code">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="ProductTags" class="col-sm-3 col-form-label">Product Tags</label>
+                    <div class="col-sm-9">
+                        <input asp-for="ProductTags" type="text" class="form-control"  placeholder="Product Tags">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Description" class="col-sm-3 col-form-label">Description</label>
+                    <div class="col-sm-9">
+                        <textarea asp-for="Description" class="form-control" cols="30" rows="10"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="ProductColors" class="col-sm-3 col-form-label">Colors</label>
+                    <div class="col-sm-9">
+                        <div class="border bg-secondary d-inline-block" style="width:15px; height:15px"></div>
+                        <input asp-for="ProductColors" placeholder="Colors">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="categoryId" class="col-sm-3 col-form-label">Select category</label>
+                    <select name="categoryId">
+                        @foreach (var item in (List<Category>)ViewBag.Categories)
+                        {
+                            @if (item.SubCategories.Any())
+                            {
+                                <option value="@item.Id">@item.CategoryName</option>
+                                    @foreach (var sub in item.SubCategories)
+                                    {
+                                        @if (sub.SubCategories.Any())
+                                        {
+                                            <option value="@sub.Id">--@sub.CategoryName</option>
+                                        }
+                                    }
+                            }
+                        }
+                    </section>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Images" class="col-sm-3 col-form-label">Select image</label>
+                    <div class="col-sm-9">
+                        <input asp-for="Images" accept="image/*" multiple/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <input type="submit" class="btn btn-primary mr-2"value="Submit"/>
+                    <button asp-action="index" class="btn btn-light">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

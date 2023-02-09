@@ -1,7 +1,7 @@
 ﻿@model HomeVM
 @{
     ViewData["Title"] = "Home Page";
-    //int k = 0;
+    int k = 0;
 }
 
     <!--====== Slider Part Start ======-->
@@ -11,7 +11,7 @@
         {
             <div class="single-slider">
             <div class="slider-image">
-                <img src="~/assets/images/@item" alt="slider">
+                <img src="~/assets/images/@item.Image.ImageUrl" alt="slider">
             </div>
             <div class="slider-content-wrapper">
                 <div class="container-fluid custom-container">
@@ -38,7 +38,7 @@
                {
                  <div class="col-md-6">
                     <div class="banner-image">
-                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@item.ProductId"><img src="~/assets/images/@item" alt="banner"></a>
+                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@item.ProductId"><img src="~/assets/images/@item.Image.ImageUrl" alt="banner"></a>
                     </div>
                 </div>
                }
@@ -60,21 +60,21 @@
                 </div>
             </div> <!-- row -->
             <div class="row category-active">
-                @* @for (int i = 0; i < Model.Categories.Count; i+=2)
+                @for (int i = 0; i < Model.Categories.Count; i+=2)
                 {
                     <div class="col-lg-2">
                     @for (int j = 0; j < 2; j++)
                     {
                         <div class="single-category text-center">
                         <a  asp-controller="product" asp-action="index">
-                            <img src="~/assets/images/@Model.Categories[k].Url" alt="category">
+                            <img src="~/assets/images/" alt="category">
                             <p>@Model.Categories[k].CategoryName</p>
                         </a>
                         </div> 
                         <span class="d-none">@(k++)</span>
                     }
                     </div>
-                } *@
+                }
                 
             </div> <!-- row -->
         </div> <!-- container -->
