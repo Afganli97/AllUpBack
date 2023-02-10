@@ -14,7 +14,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        @* <th>Main Image </th> *@
+                        <th>Main Image </th>
                         <th> Product Name </th>
                         <th> Is Deleted </th>
                         <th> Settings </th>
@@ -24,7 +24,7 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            @* <td><img src="~/img/@item.Images.FirstOrDefault(i=>i.IsMain==true).ImageUrl"/></td> *@
+                            <td><img src='~/assets/images/product/@(item.Images.FirstOrDefault(i=>i.IsMain==true)!=null?item.Images.FirstOrDefault(i=>i.IsMain==true).ImageUrl:"product-1.jpg")'/></td>
                             <td>@item.ProductName</td>
                             <td>@item.IsDeleted</td>
                             <td>

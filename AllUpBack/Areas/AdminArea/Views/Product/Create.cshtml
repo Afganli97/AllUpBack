@@ -1,4 +1,4 @@
-@model Product
+@model ProductCreateVM
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Areas/AdminArea/Views/Shared/_AdminLayout.cshtml";
@@ -12,62 +12,74 @@
             <div class="text-danger" asp-validation-summary="All"></div>
             <form method="post" class="forms-sample" enctype="multipart/form-data">
                 <div class="form-group row">
-                    <label asp-for="ProductName" class="col-sm-3 col-form-label">Product Name</label>
+                    <label asp-for="@Model.Product.ProductName" class="col-sm-3 col-form-label">Product Name</label>
                     <div class="col-sm-9">
-                        <input asp-for="ProductName" class="form-control"  placeholder="Product Name">
+                        <input asp-for="@Model.Product.ProductName" class="form-control"  placeholder="Product Name">
+                        <span asp-validation-for="@Model.Product.ProductName"></span>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label asp-for="Price" class="col-sm-3 col-form-label">Price</label>
+                    <label asp-for="@Model.Product.Price" class="col-sm-3 col-form-label">Price</label>
                     <div class="col-sm-9">
-                        <input asp-for="Price" type="number" class="form-control"  placeholder="Price">
+                        <input asp-for="@Model.Product.Price" type="number" class="form-control"  placeholder="Price">
+                        <span asp-validation-for="@Model.Product.Price"></span>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label asp-for="Discount" class="col-sm-3 col-form-label">Discount</label>
+                    <label asp-for="@Model.Product.Discount" class="col-sm-3 col-form-label">Discount</label>
                     <div class="col-sm-9">
-                        <input asp-for="Discount" type="number" class="form-control"  placeholder="Discount">
+                        <input asp-for="@Model.Product.Discount" type="number" class="form-control"  placeholder="Discount">
+                        <span asp-validation-for="@Model.Product.Discount"></span>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label asp-for="Count" class="col-sm-3 col-form-label">Count</label>
+                    <label asp-for="@Model.Product.Count" class="col-sm-3 col-form-label">Count</label>
                     <div class="col-sm-9">
-                        <input asp-for="Count" type="number" class="form-control"  placeholder="Count">
+                        <input asp-for="@Model.Product.Count" type="number" class="form-control"  placeholder="Count">
+                        <span asp-validation-for="@Model.Product.Count"></span>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label asp-for="ProductCode" class="col-sm-3 col-form-label">Product Code</label>
+                    <label asp-for="@Model.Product.ProductCode" class="col-sm-3 col-form-label">Product Code</label>
                     <div class="col-sm-9">
-                        <input asp-for="ProductCode" type="text" class="form-control"  placeholder="Product Code">
+                        <input asp-for="@Model.Product.ProductCode" type="text" class="form-control"  placeholder="Product Code">
+                        <span asp-validation-for="@Model.Product.ProductCode"></span>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label asp-for="ProductTags" class="col-sm-3 col-form-label">Product Tags</label>
+                    <label asp-for="@Model.Tag" class="col-sm-3 col-form-label">Product Tags</label>
                     <div class="col-sm-9">
-                        <input asp-for="ProductTags" type="text" class="form-control"  placeholder="Product Tags">
+                        <input asp-for="@Model.Tag" type="text" class="form-control"  placeholder="Product Tags">
+                        <span asp-validation-for="@Model.Tag"></span>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label asp-for="Description" class="col-sm-3 col-form-label">Description</label>
+                    <label asp-for="@Model.Product.Description" class="col-sm-3 col-form-label">Description</label>
                     <div class="col-sm-9">
-                        <textarea asp-for="Description" class="form-control" cols="30" rows="10"></textarea>
+                        <textarea asp-for="@Model.Product.Description" class="form-control" cols="30" rows="10"></textarea>
+                        <span asp-validation-for="@Model.Product.Description"></span>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label asp-for="ProductColors" class="col-sm-3 col-form-label">Colors</label>
-                    <div class="col-sm-9">
-                        <div class="border bg-secondary d-inline-block" style="width:15px; height:15px"></div>
-                        <input asp-for="ProductColors" placeholder="Colors">
-                    </div>
+                    <label asp-for="@Model.Color.ColorName" class="col-sm-3 col-form-label">Select Color</label>
+                    <select asp-for="@Model.Color.ColorName" asp-items='@(new SelectList((List<Color>)ViewBag.Colors, "ColorName", "ColorName"))'></select>
                 </div>
                 <div class="form-group row">
-                    <label for="categoryId" class="col-sm-3 col-form-label">Select category</label>
-                    <select name="categoryId">
+                    <label asp-for="@Model.Size.SizeName" class="col-sm-3 col-form-label">Select Size</label>
+                    <select asp-for="@Model.Size.SizeName" asp-items='@(new SelectList((List<Size>)ViewBag.Sizes, "SizeName", "SizeName"))'></select>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="@Model.Composition.Id" class="col-sm-3 col-form-label">Select Composition</label>
+                    <select asp-for="@Model.Composition.Id" asp-items='@(new SelectList((List<Composition>)ViewBag.Compositions, "Id", "Name"))'></select>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="@Model.Category.CategoryName" class="col-sm-3 col-form-label">Select category</label>
+                    <select asp-for="@Model.Category">
                         @foreach (var item in (List<Category>)ViewBag.Categories)
                         {
                             @if (item.SubCategories.Any())
                             {
-                                <option value="@item.Id">@item.CategoryName</option>
+                                <option  value="@item.Id">@item.CategoryName</option>
                                     @foreach (var sub in item.SubCategories)
                                     {
                                         @if (sub.SubCategories.Any())
@@ -77,12 +89,13 @@
                                     }
                             }
                         }
-                    </section>
+                    </select>
                 </div>
                 <div class="form-group row">
-                    <label asp-for="Images" class="col-sm-3 col-form-label">Select image</label>
+                    <label asp-for="@Model.Photos" class="col-sm-3 col-form-label">Select image</label>
                     <div class="col-sm-9">
-                        <input asp-for="Images" accept="image/*" multiple/>
+                        <input asp-for="@Model.Photos" accept="image/*" multiple/>
+                        <span asp-validation-for="@Model.Photos"></span>
                     </div>
                 </div>
                 <div class="form-group row">

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AllUpBack.Areas.AdminArea.ViewModels;
 using AllUpBack.DAL;
 using AllUpBack.Models;
 using FrontToBack.Helpers.Extensions;
@@ -18,6 +19,7 @@ namespace AllUpBack.Areas.AdminArea.Controllers
     {
         private readonly DataBase _context;
 private readonly IWebHostEnvironment _env;
+
         public ProductController(DataBase context, IWebHostEnvironment env)
         {
             _context = context;
@@ -31,39 +33,90 @@ private readonly IWebHostEnvironment _env;
 
         public IActionResult Create()
         {
-            var categories = _context.Categories.Where(x=>!x.IsDeleted).ToList();
-            ViewBag.Categories = categories;
+            ViewBag.Categories = _context.Categories.Where(x=>!x.IsDeleted).ToList();
+            ViewBag.Colors = _context.Colors.ToList();
+            ViewBag.Sizes = _context.Sizes.ToList();
+            ViewBag.Compositions = _context.Compositions.ToList();
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(Product product)
+        public IActionResult Create(ProductCreateVM productVM, int? categoryId)
         {
+            ViewBag.Colors = _context.Colors.ToList();
+            ViewBag.Sizes = _context.Sizes.ToList();
+            ViewBag.Compositions = _context.Compositions.ToList();
+            ViewBag.Categories = _context.Categories.Where(x=>!x.IsDeleted).ToList();
+
             if (!ModelState.IsValid) return View();
-            if (_context.Products.Any(c=>c.ProductName.ToLower() == product.ProductName.ToLower()))
+
+            if(categoryId == null) return NotFound();
+
+            if (_context.Categories.Find(categoryId) == null) return NotFound();
+
+            if (_context.Products.Any(c=>c.ProductName.ToLower() == productVM.Product.ProductName.ToLower()))
             {
                 ModelState.AddModelError("Name", "This name already exist!");
                 return View();
             }
 
-            if (ModelState["Photo"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+            if (ModelState["Photos"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
                 return View();
-            foreach (var image in product.Images)
+
+            // if (!_context.Colors.Any(x=>x.ColorName.ToLower() == productVM.Color.ToLower()))
+            // {
+            //     ModelState.AddModelError("Color", "This color does not exist!");
+            //     return View();
+            // }
+
+            productVM.Product.CategoryId = (int)categoryId;
+            _context.Products.Add(productVM.Product);
+            _context.SaveChanges();
+
+            ProductColor productColor = new ProductColor();
+            ProductSize productSize = new ProductSize();
+            ProductComposition productComposition = new ProductComposition();
+
+            productColor.Product = productVM.Product;
+            //productColor.Color = _context.Colors.FirstOrDefault(x=>x.ColorName.ToLower() == productVM.Color.ToLower());
+            productSize.Product = productVM.Product;
+
+            if (productVM.Tag != null)
             {
-                if(!image.Photo.CheckFile("image"))
+                var tags = productVM.Tag.Split();
+                foreach (var item in tags)
+                {
+                    Tag tag = new Tag();
+                    tag.TagName = item;
+
+                    ProductTag productTag = new ProductTag();
+                    productTag.Tag = tag;
+                    productTag.Product = productVM.Product;
+                    
+                    _context.Tags.Add(tag);
+                    _context.ProductTags.Add(productTag);
+                }
+            }
+
+            foreach (var photo in productVM.Photos)
+            {
+                if(!photo.CheckFile("image"))
                     ModelState.AddModelError("Photo", "Select Photo");
-                if(image.Photo.CheckFileLength(10000))
+                if(photo.CheckFileLength(10000))
                     ModelState.AddModelError("Photo", "Selected photo length is so much");
 
-                product.Images = new List<Image>();
 
-                image.Photo.SaveFile(_env, "assets/images/product");
-                product.Images.FirstOrDefault().ImageUrl = image.Photo.FileName;
-                product.Images.FirstOrDefault().IsMain = true;
+                photo.SaveFile(_env, "assets/images/product");
+
+                Image image = new Image();
+
+                image.ImageUrl = photo.FileName;
+                image.Product = productVM.Product;
+                if (photo == productVM.Photos.Last())
+                    image.IsMain = true;
+                _context.Images.Add(image);
             }
             
-            
-            _context.Products.Add(product);
             _context.SaveChanges();
 
             return RedirectToAction("index");
