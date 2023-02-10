@@ -46,7 +46,7 @@ private readonly IWebHostEnvironment _env;
             ViewBag.Colors = _context.Colors.ToList();
             ViewBag.Sizes = _context.Sizes.ToList();
             ViewBag.Compositions = _context.Compositions.ToList();
-            ViewBag.Categories = _context.Categories.Where(x=>!x.IsDeleted).ToList();
+            ViewBag.Categories = _context.Categories.Include(x=>x.SubCategories).ThenInclude(x=>x.SubCategories).Where(x=>!x.IsDeleted).ToList();
 
             if (!ModelState.IsValid) return View();
 
@@ -63,12 +63,6 @@ private readonly IWebHostEnvironment _env;
             if (ModelState["Photos"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
                 return View();
 
-            // if (!_context.Colors.Any(x=>x.ColorName.ToLower() == productVM.Color.ToLower()))
-            // {
-            //     ModelState.AddModelError("Color", "This color does not exist!");
-            //     return View();
-            // }
-
             productVM.Product.CategoryId = (int)categoryId;
             _context.Products.Add(productVM.Product);
             _context.SaveChanges();
@@ -77,9 +71,6 @@ private readonly IWebHostEnvironment _env;
             ProductSize productSize = new ProductSize();
             ProductComposition productComposition = new ProductComposition();
 
-            productColor.Product = productVM.Product;
-            //productColor.Color = _context.Colors.FirstOrDefault(x=>x.ColorName.ToLower() == productVM.Color.ToLower());
-            productSize.Product = productVM.Product;
 
             if (productVM.Tag != null)
             {
