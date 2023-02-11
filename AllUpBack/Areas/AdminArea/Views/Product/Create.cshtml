@@ -69,12 +69,12 @@
                     <select asp-for="@Model.Size.SizeName" asp-items='@(new SelectList((List<Size>)ViewBag.Sizes, "SizeName", "SizeName"))'></select>
                 </div>
                 <div class="form-group row">
-                    <label asp-for="@Model.Composition.Id" class="col-sm-3 col-form-label">Select Composition</label>
-                    <select asp-for="@Model.Composition.Id" asp-items='@(new SelectList((List<Composition>)ViewBag.Compositions, "Id", "Name"))'></select>
+                    <label asp-for="@Model.Composition.Name" class="col-sm-3 col-form-label">Select Composition</label>
+                    <select asp-for="@Model.Composition.Name" asp-items='@(new SelectList((List<Composition>)ViewBag.Compositions, "Name", "Name"))'></select>
                 </div>
                 <div class="form-group row">
-                    <label asp-for="@Model.Category.CategoryName" class="col-sm-3 col-form-label">Select category</label>
-                    <select asp-for="@Model.Category">
+                    <label for="categoryId" class="col-sm-3 col-form-label">Select category</label>
+                    <select name="categoryId">
                         @foreach (var item in (List<Category>)ViewBag.Categories)
                         {
                             @if (item.SubCategories.Any())
@@ -85,13 +85,13 @@
                                         @if (sub.SubCategories.Any())
                                         {
                                             <option value="@sub.Id">--@sub.CategoryName</option>
-                                            @foreach (var subSub in sub.SubCategories)
+                                            @* @foreach (var subSub in sub.SubCategories)
                                             {
                                                 @if (subSub.SubCategories.Any())
                                                 {
                                                     <option value="@sub.Id">----@subSub.CategoryName</option>
                                                 }
-                                            }
+                                            } *@
                                         }
                                     }
                             }

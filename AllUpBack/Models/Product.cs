@@ -12,6 +12,11 @@ namespace AllUpBack.Models
             IsDeleted = false;
             CreatedTime = DateTime.Now;
             LastModifiedTime = DateTime.Now;
+            ProductTags = new();
+            Images = new();
+            ProductColors = new();
+            ProductSizes = new();
+            ProductCompositions = new();
         }
         public int Id { get; set; }
         public string ProductName { get; set; }

@@ -50,6 +50,12 @@ private readonly IWebHostEnvironment _env;
 
             if (!ModelState.IsValid) return View();
 
+            if(productVM.Product == null) return View();
+            if(productVM.Color == null) return View();
+            if(productVM.Size == null) return View();
+            if(productVM.Composition == null) return View();
+
+
             if(categoryId == null) return NotFound();
 
             if (_context.Categories.Find(categoryId) == null) return NotFound();
@@ -63,14 +69,29 @@ private readonly IWebHostEnvironment _env;
             if (ModelState["Photos"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
                 return View();
 
-            productVM.Product.CategoryId = (int)categoryId;
-            _context.Products.Add(productVM.Product);
-            _context.SaveChanges();
-
             ProductColor productColor = new ProductColor();
             ProductSize productSize = new ProductSize();
             ProductComposition productComposition = new ProductComposition();
 
+            productColor.Color = _context.Colors.FirstOrDefault(x=>x.ColorName.ToLower() == productVM.Color.ColorName.ToLower());
+            productColor.Product = productVM.Product;
+            productVM.Product.ProductColors.Add(productColor);
+
+            productSize.Size = _context.Sizes.FirstOrDefault(x=>x.SizeName.ToLower() == productVM.Size.SizeName.ToLower());
+            productSize.Product = productVM.Product;
+            productVM.Product.ProductSizes.Add(productSize);
+
+            productComposition.Composition = _context.Compositions.FirstOrDefault(x=>x.Name.ToLower() == productVM.Composition.Name.ToLower());
+            productComposition.Product = productVM.Product;
+            productVM.Product.ProductCompositions.Add(productComposition);
+
+            productVM.Product.CategoryId = (int)categoryId;
+            _context.Products.Add(productVM.Product);
+            _context.SaveChanges();
+
+            
+            // _context.Products.Add(productVM.Product);
+            // _context.SaveChanges();
 
             if (productVM.Tag != null)
             {
@@ -113,35 +134,37 @@ private readonly IWebHostEnvironment _env;
             return RedirectToAction("index");
         }
 
-        // public IActionResult Detail(int? id)
-        // {
-        //     if(id == null) return NotFound();
-        //     Product product = _context.Products.Include(p=>p.Images).Include(p=>p.Category).FirstOrDefault(x=>x.Id == id);
-        //     if(product == null) return NotFound();
+        public IActionResult Detail(int? id)
+        {
+            if(id == null) return NotFound();
+            Product product = _context.Products.Include(p=>p.Images).Include(p=>p.Category).FirstOrDefault(x=>x.Id == id);
+            if(product == null) return NotFound();
 
-        //     return View(product);
-        // }
+            return View(product);
+        }
 
-        // public IActionResult Delete(int? id)
-        // {
-        //     if(id == null) return NotFound();
-        //     Product product = _context.Products.Include(p=>p.Images).Include(p=>p.Category).FirstOrDefault(x=>x.Id == id);
-        //     if(product == null) return NotFound();
+        public IActionResult Delete(int? id)
+        {
+            if(id == null) return NotFound();
+            Product product = _context.Products.Find(id);
+            if(product == null) return NotFound();
 
-        //     _context.Products.Remove(product);
-        //     _context.SaveChanges();
+            product.IsDeleted = true;
+            product.DeletedTime = DateTime.Now;
+
+            _context.SaveChanges();
             
-        //     return RedirectToAction("Index");
-        // }
+            return RedirectToAction("Index");
+        }
 
-        // public IActionResult Update(int? id)
-        // {
-        //     if(id == null) return NotFound();
-        //     Product product = _context.Products.Include(p=>p.Images).Include(p=>p.Category).FirstOrDefault(x=>x.Id == id);
-        //     if(product == null) return NotFound();
+        public IActionResult Update(int? id)
+        {
+            if(id == null) return NotFound();
+            Product product = _context.Products.Include(p=>p.Images).Include(p=>p.Category).FirstOrDefault(x=>x.Id == id);
+            if(product == null) return NotFound();
 
-        //     return View(product);
-        // }
+            return View(product);
+        }
 
         // [HttpPost]
         // public IActionResult Update(int? id, Product product)

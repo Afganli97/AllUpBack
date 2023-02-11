@@ -36,6 +36,11 @@ namespace AllUpBack.DAL
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<Tag> Tags { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.EnableSensitiveDataLogging();
+        }
+
         public override int SaveChanges()
         {
             var time = ChangeTracker.Entries<ModifyTime>();
