@@ -48,42 +48,32 @@ private readonly IWebHostEnvironment _env;
             ViewBag.Compositions = _context.Compositions.ToList();
             ViewBag.Categories = _context.Categories.Include(x=>x.SubCategories).ThenInclude(x=>x.SubCategories).Where(x=>!x.IsDeleted).ToList();
 
-            if (!ModelState.IsValid) return View();
+            // if (!ModelState.IsValid) return View();
 
-            if(productVM.Product == null) return View();
-            if(productVM.Color == null) return View();
-            if(productVM.Size == null) return View();
-            if(productVM.Composition == null) return View();
+            // if(productVM.Product == null) return View();
+            // if(productVM.Color == null) return View();
+            // if(productVM.Size == null) return View();
+            // if(productVM.Composition == null) return View();
 
 
-            if(categoryId == null) return NotFound();
+            // if(categoryId == null) return NotFound();
 
-            if (_context.Categories.Find(categoryId) == null) return NotFound();
+            // if (_context.Categories.Find(categoryId) == null) return NotFound();
 
-            if (_context.Products.Any(c=>c.ProductName.ToLower() == productVM.Product.ProductName.ToLower()))
-            {
-                ModelState.AddModelError("Name", "This name already exist!");
-                return View();
-            }
+            // if (_context.Products.Any(c=>c.ProductName.ToLower() == productVM.Product.ProductName.ToLower()))
+            // {
+            //     ModelState.AddModelError("Name", "This name already exist!");
+            //     return View();
+            // }
 
-            if (ModelState["Photos"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
-                return View();
+            // if (ModelState["Photos"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+            //     return View();
 
-            ProductColor productColor = new ProductColor();
-            ProductSize productSize = new ProductSize();
-            ProductComposition productComposition = new ProductComposition();
+            ProductCount productCount = new();
 
-            productColor.Color = _context.Colors.FirstOrDefault(x=>x.ColorName.ToLower() == productVM.Color.ColorName.ToLower());
-            productColor.Product = productVM.Product;
-            productVM.Product.ProductColors.Add(productColor);
-
-            productSize.Size = _context.Sizes.FirstOrDefault(x=>x.SizeName.ToLower() == productVM.Size.SizeName.ToLower());
-            productSize.Product = productVM.Product;
-            productVM.Product.ProductSizes.Add(productSize);
-
-            productComposition.Composition = _context.Compositions.FirstOrDefault(x=>x.Name.ToLower() == productVM.Composition.Name.ToLower());
-            productComposition.Product = productVM.Product;
-            productVM.Product.ProductCompositions.Add(productComposition);
+            productCount.Color = _context.Colors.Find(productVM.Color.Id);
+            productCount.Product = productVM.Product;
+            productVM.Product.ProductCounts.Add(productCount);
 
             productVM.Product.CategoryId = (int)categoryId;
             _context.Products.Add(productVM.Product);
@@ -166,38 +156,38 @@ private readonly IWebHostEnvironment _env;
             return View(product);
         }
 
-        // [HttpPost]
-        // public IActionResult Update(int? id, Product product)
-        // {
-        //     if(!ModelState.IsValid) return View();
-        //     var existProduct = _context.Products.Find(id);
-        //     if (!_context.Products.Any(x=>x.Name.ToLower() == product.Name.ToLower())&&existProduct.Name.ToLower()!=product.Name.ToLower()) return View();
+        [HttpPost]
+        public IActionResult Update(int? id, Product product)
+        {
+            if(!ModelState.IsValid) return View();
+            var existProduct = _context.Products.Find(id);
+            if (!_context.Products.Any(x=>x.ProductName.ToLower() == product.ProductName.ToLower())&&existProduct.ProductName.ToLower()!=product.ProductName.ToLower()) return View();
 
-        //     var mainImage = product.Images.FirstOrDefault(x=>x.IsMain);
+            var mainImage = product.Images.FirstOrDefault(x=>x.IsMain);
 
-        //     existProduct.Name = product.Name;
-        //     existProduct.Price = product.Price;
-        //     existProduct.Count = product.Count;
+            existProduct.ProductName = product.ProductName;
+            existProduct.Price = product.Price;
+            //existProduct.Count = product.Count;
 
-        //     if (mainImage.Photo != null)
-        //     {
-        //         if(!mainImage.Photo.CheckFile("image"))
-        //             ModelState.AddModelError("Photo", "Select Photo");
-        //         if(mainImage.Photo.CheckFileLength(1000))
-        //             ModelState.AddModelError("Photo", "Selected photo length is so much");
+            if (mainImage.Photo != null)
+            {
+                if(!mainImage.Photo.CheckFile("image"))
+                    ModelState.AddModelError("Photo", "Select Photo");
+                if(mainImage.Photo.CheckFileLength(1000))
+                    ModelState.AddModelError("Photo", "Selected photo length is so much");
 
-        //         existProduct.Images.FirstOrDefault(x=>x.IsMain).ImageUrl.DeleteFile(_env, "img");
-        //         mainImage.Photo.SaveFile(_env, "img");
+                existProduct.Images.FirstOrDefault(x=>x.IsMain).ImageUrl.DeleteFile(_env, "img");
+                mainImage.Photo.SaveFile(_env, "img");
                 
-        //         _context.Products.Find(id).Images.FirstOrDefault(x=>x.IsMain).ImageUrl = mainImage.Photo.FileName;
-        //         _context.SaveChanges();
-        //     }
+                _context.Products.Find(id).Images.FirstOrDefault(x=>x.IsMain).ImageUrl = mainImage.Photo.FileName;
+                _context.SaveChanges();
+            }
 
-        //     _context.Products.Update(existProduct);
-        //     _context.SaveChanges();
+            _context.Products.Update(existProduct);
+            _context.SaveChanges();
 
-        //     return RedirectToAction("Index");
-        // }
+            return RedirectToAction("Index");
+        }
         
     }
 }

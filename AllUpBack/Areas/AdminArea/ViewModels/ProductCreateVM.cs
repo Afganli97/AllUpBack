@@ -11,6 +11,7 @@ namespace AllUpBack.Areas.AdminArea.ViewModels
         public Composition Composition { get; set; }
         public Category Category { get; set; }
         public List<IFormFile> Photos { get; set; }
+        
 
     }
 }

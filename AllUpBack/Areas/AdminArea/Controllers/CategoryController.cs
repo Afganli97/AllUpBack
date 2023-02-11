@@ -23,10 +23,16 @@ namespace AllUpBack.Areas.AdminArea.Controllers
             _env = env;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int take = 10, int skip = 1)
         {
-            var categories = _context.Categories.ToList(); 
-            return View(categories);
+            var categories = _context.Categories; 
+            PaginationVM<Category> paginationVM = new();
+            paginationVM.Items = categories.ToList();
+            paginationVM.TakedItems = categories.Skip(take*(skip-1)).Take(take).ToList();
+            paginationVM.Take = take;
+            paginationVM.ExistPage = skip;
+
+            return View(paginationVM);
         }
 
         public IActionResult Create()

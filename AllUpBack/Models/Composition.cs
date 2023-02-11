@@ -4,6 +4,6 @@ namespace AllUpBack.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<ProductComposition> ProductCompositions { get; set; }
+        public List<ProductCount> ProductCounts { get; set; }
     }
 }

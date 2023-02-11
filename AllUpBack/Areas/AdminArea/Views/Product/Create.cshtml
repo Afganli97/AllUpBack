@@ -33,13 +33,6 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label asp-for="@Model.Product.Count" class="col-sm-3 col-form-label">Count</label>
-                    <div class="col-sm-9">
-                        <input asp-for="@Model.Product.Count" type="number" class="form-control"  placeholder="Count">
-                        <span asp-validation-for="@Model.Product.Count"></span>
-                    </div>
-                </div>
-                <div class="form-group row">
                     <label asp-for="@Model.Product.ProductCode" class="col-sm-3 col-form-label">Product Code</label>
                     <div class="col-sm-9">
                         <input asp-for="@Model.Product.ProductCode" type="text" class="form-control"  placeholder="Product Code">
@@ -61,17 +54,17 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label asp-for="@Model.Color.ColorName" class="col-sm-3 col-form-label">Select Color</label>
-                    <select asp-for="@Model.Color.ColorName" asp-items='@(new SelectList((List<Color>)ViewBag.Colors, "ColorName", "ColorName"))'></select>
+                    <label asp-for="@Model.Color.Id" class="col-sm-3 col-form-label">Select Color</label>
+                    <select asp-for="@Model.Color.Id" asp-items='@(new SelectList((List<Color>)ViewBag.Colors, "Id", "ColorName"))'></select>
                 </div>
-                <div class="form-group row">
+                @* <div class="form-group row">
                     <label asp-for="@Model.Size.SizeName" class="col-sm-3 col-form-label">Select Size</label>
                     <select asp-for="@Model.Size.SizeName" asp-items='@(new SelectList((List<Size>)ViewBag.Sizes, "SizeName", "SizeName"))'></select>
                 </div>
                 <div class="form-group row">
                     <label asp-for="@Model.Composition.Name" class="col-sm-3 col-form-label">Select Composition</label>
                     <select asp-for="@Model.Composition.Name" asp-items='@(new SelectList((List<Composition>)ViewBag.Compositions, "Name", "Name"))'></select>
-                </div>
+                </div> *@
                 <div class="form-group row">
                     <label for="categoryId" class="col-sm-3 col-form-label">Select category</label>
                     <select name="categoryId">
