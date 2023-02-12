@@ -33,7 +33,7 @@ private readonly IWebHostEnvironment _env;
 
         public IActionResult Create()
         {
-            ViewBag.Categories = _context.Categories.Where(x=>!x.IsDeleted).ToList();
+            ViewBag.Categories = _context.Categories.Include(x=>x.SubCategories).ThenInclude(x=>x.SubCategories).Where(x=>!x.IsDeleted).ToList();
             ViewBag.Colors = _context.Colors.ToList();
             ViewBag.Sizes = _context.Sizes.ToList();
             ViewBag.Compositions = _context.Compositions.ToList();
@@ -52,7 +52,6 @@ private readonly IWebHostEnvironment _env;
 
             if(productVM.Product == null) return View();
             if(productVM.Color == null) return View();
-            if(productVM.Size == null) return View();
             if(productVM.Composition == null) return View();
 
             if (_context.Categories.Find(productVM.CategoryId) == null) return NotFound();
@@ -74,13 +73,14 @@ private readonly IWebHostEnvironment _env;
             }
             else
             {
-                
+                Brand brand = new();
+                brand.BrandName = productVM.Brand;
+                productVM.Product.Brand = brand;
             }
 
             ProductCount productCount = new();
 
             productCount.Color = _context.Colors.Find(productVM.Color.Id);
-            productCount.Size = _context.Sizes.Find(productVM.Size.Id);
             productCount.Composition = _context.Compositions.Find(productVM.Composition.Id);
             productCount.Product = productVM.Product;
             productVM.Product.ProductCounts.Add(productCount);

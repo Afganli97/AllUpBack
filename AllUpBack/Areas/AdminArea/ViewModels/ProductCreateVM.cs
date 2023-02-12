@@ -10,9 +10,9 @@ namespace AllUpBack.Areas.AdminArea.ViewModels
         public string Brand { get; set; }
         public Product Product { get; set; }
         public Color Color { get; set; }
-        public Size Size { get; set; }
         public Composition Composition { get; set; }
         public Category Category { get; set; }
+        public Dictionary<int, int> Sizes { get; set; }
         public List<IFormFile> Photos { get; set; }
         
 

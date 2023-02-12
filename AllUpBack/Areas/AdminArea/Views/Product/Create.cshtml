@@ -79,12 +79,17 @@
                     <select asp-for="@Model.Color.Id" asp-items='@(new SelectList((List<Color>)ViewBag.Colors, "Id", "ColorName"))'></select>
                 </div>
                 <div class="form-group row">
-                    <label asp-for="@Model.Size.Id" class="col-sm-3 col-form-label">Select Size</label>
-                    <select asp-for="@Model.Size.Id" asp-items='@(new SelectList((List<Size>)ViewBag.Sizes, "Id", "SizeName"))'></select>
-                </div>
-                <div class="form-group row">
                     <label asp-for="@Model.Composition.Id" class="col-sm-3 col-form-label">Select Composition</label>
                     <select asp-for="@Model.Composition.Id" asp-items='@(new SelectList((List<Composition>)ViewBag.Compositions, "Id", "Name"))'></select>
+                </div>
+                <div class="d-flex flex-column">
+                    @foreach (var item in ViewBag.Sizes)
+                    {
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">@item.SizeName: </label>
+                            <input type="number" name="Sizes[@item.Id]"  value="0"/>
+                        </div>
+                    }
                 </div>
                 <div class="form-group row">
                     <label for="CategoryId" class="col-sm-3 col-form-label">Select category</label>
@@ -99,13 +104,11 @@
                                         @if (sub.SubCategories.Any())
                                         {
                                             <option value="@sub.Id">--@sub.CategoryName</option>
-                                            @* @foreach (var subSub in sub.SubCategories)
+
+                                            @foreach (var subSub in sub.SubCategories)
                                             {
-                                                @if (subSub.SubCategories.Any())
-                                                {
-                                                    <option value="@sub.Id">----@subSub.CategoryName</option>
-                                                }
-                                            } *@
+                                                <option value="@sub.Id">----@subSub.CategoryName</option>
+                                            }
                                         }
                                     }
                             }
