@@ -3,6 +3,7 @@ using System;
 using AllUpBack.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AllUpBack.Migrations
 {
     [DbContext(typeof(DataBase))]
-    partial class DataBaseModelSnapshot : ModelSnapshot
+    [Migration("20230211193803_DeleteProductCOlorTable")]
+    partial class DeleteProductCOlorTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.13");
@@ -776,7 +778,7 @@ namespace AllUpBack.Migrations
 
             modelBuilder.Entity("AllUpBack.Models.Product", b =>
                 {
-                    b.HasOne("AllUpBack.Models.Brand", "Brand")
+                    b.HasOne("AllUpBack.Models.Brand", null)
                         .WithMany("Products")
                         .HasForeignKey("BrandId");
 
@@ -785,8 +787,6 @@ namespace AllUpBack.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Brand");
 
                     b.Navigation("Category");
                 });

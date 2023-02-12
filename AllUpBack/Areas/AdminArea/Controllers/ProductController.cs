@@ -41,47 +41,53 @@ private readonly IWebHostEnvironment _env;
         }
 
         [HttpPost]
-        public IActionResult Create(ProductCreateVM productVM, int? categoryId)
+        public IActionResult Create(ProductCreateVM productVM)
         {
             ViewBag.Colors = _context.Colors.ToList();
             ViewBag.Sizes = _context.Sizes.ToList();
             ViewBag.Compositions = _context.Compositions.ToList();
             ViewBag.Categories = _context.Categories.Include(x=>x.SubCategories).ThenInclude(x=>x.SubCategories).Where(x=>!x.IsDeleted).ToList();
 
-            // if (!ModelState.IsValid) return View();
+            if (!ModelState.IsValid) return View();
 
-            // if(productVM.Product == null) return View();
-            // if(productVM.Color == null) return View();
-            // if(productVM.Size == null) return View();
-            // if(productVM.Composition == null) return View();
+            if(productVM.Product == null) return View();
+            if(productVM.Color == null) return View();
+            if(productVM.Size == null) return View();
+            if(productVM.Composition == null) return View();
 
+            if (_context.Categories.Find(productVM.CategoryId) == null) return NotFound();
 
-            // if(categoryId == null) return NotFound();
+            if (_context.Products.Any(c=>c.ProductName.ToLower() == productVM.Product.ProductName.ToLower()))
+            {
+                ModelState.AddModelError("Name", "This name already exist!");
+                return View();
+            }
 
-            // if (_context.Categories.Find(categoryId) == null) return NotFound();
+            if (ModelState["Photos"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+                return View();
 
-            // if (_context.Products.Any(c=>c.ProductName.ToLower() == productVM.Product.ProductName.ToLower()))
-            // {
-            //     ModelState.AddModelError("Name", "This name already exist!");
-            //     return View();
-            // }
+            var brands = _context.Brands;
 
-            // if (ModelState["Photos"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
-            //     return View();
+            if (brands.Any(x=>x.BrandName.ToLower() == productVM.Brand.ToLower()))
+            {
+                productVM.Product.Brand = brands.FirstOrDefault(x=>x.BrandName.ToLower() == productVM.Brand.ToLower());
+            }
+            else
+            {
+                
+            }
 
             ProductCount productCount = new();
 
             productCount.Color = _context.Colors.Find(productVM.Color.Id);
+            productCount.Size = _context.Sizes.Find(productVM.Size.Id);
+            productCount.Composition = _context.Compositions.Find(productVM.Composition.Id);
             productCount.Product = productVM.Product;
             productVM.Product.ProductCounts.Add(productCount);
 
-            productVM.Product.CategoryId = (int)categoryId;
+            productVM.Product.CategoryId = productVM.CategoryId;
             _context.Products.Add(productVM.Product);
             _context.SaveChanges();
-
-            
-            // _context.Products.Add(productVM.Product);
-            // _context.SaveChanges();
 
             if (productVM.Tag != null)
             {

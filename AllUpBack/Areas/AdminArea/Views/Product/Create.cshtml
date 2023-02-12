@@ -33,6 +33,13 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label asp-for="@Model.Count" class="col-sm-3 col-form-label">Product count</label>
+                    <div class="col-sm-9">
+                        <input asp-for="@Model.Count" type="number" class="form-control"  placeholder="Product count">
+                        <span asp-validation-for="@Model.Count"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label asp-for="@Model.Product.ProductCode" class="col-sm-3 col-form-label">Product Code</label>
                     <div class="col-sm-9">
                         <input asp-for="@Model.Product.ProductCode" type="text" class="form-control"  placeholder="Product Code">
@@ -47,6 +54,20 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label asp-for="@Model.Tag" class="col-sm-3 col-form-label">Product Tags</label>
+                    <div class="col-sm-9">
+                        <input asp-for="@Model.Tag" type="text" class="form-control"  placeholder="Product Tags">
+                        <span asp-validation-for="@Model.Tag"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Brand" class="col-sm-3 col-form-label">Brand Name</label>
+                    <div class="col-sm-9">
+                        <input asp-for="Brand" type="text" class="form-control"  placeholder="Brand Name">
+                        <span asp-validation-for="Brand"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label asp-for="@Model.Product.Description" class="col-sm-3 col-form-label">Description</label>
                     <div class="col-sm-9">
                         <textarea asp-for="@Model.Product.Description" class="form-control" cols="30" rows="10"></textarea>
@@ -57,17 +78,17 @@
                     <label asp-for="@Model.Color.Id" class="col-sm-3 col-form-label">Select Color</label>
                     <select asp-for="@Model.Color.Id" asp-items='@(new SelectList((List<Color>)ViewBag.Colors, "Id", "ColorName"))'></select>
                 </div>
-                @* <div class="form-group row">
-                    <label asp-for="@Model.Size.SizeName" class="col-sm-3 col-form-label">Select Size</label>
-                    <select asp-for="@Model.Size.SizeName" asp-items='@(new SelectList((List<Size>)ViewBag.Sizes, "SizeName", "SizeName"))'></select>
+                <div class="form-group row">
+                    <label asp-for="@Model.Size.Id" class="col-sm-3 col-form-label">Select Size</label>
+                    <select asp-for="@Model.Size.Id" asp-items='@(new SelectList((List<Size>)ViewBag.Sizes, "Id", "SizeName"))'></select>
                 </div>
                 <div class="form-group row">
-                    <label asp-for="@Model.Composition.Name" class="col-sm-3 col-form-label">Select Composition</label>
-                    <select asp-for="@Model.Composition.Name" asp-items='@(new SelectList((List<Composition>)ViewBag.Compositions, "Name", "Name"))'></select>
-                </div> *@
+                    <label asp-for="@Model.Composition.Id" class="col-sm-3 col-form-label">Select Composition</label>
+                    <select asp-for="@Model.Composition.Id" asp-items='@(new SelectList((List<Composition>)ViewBag.Compositions, "Id", "Name"))'></select>
+                </div>
                 <div class="form-group row">
-                    <label for="categoryId" class="col-sm-3 col-form-label">Select category</label>
-                    <select name="categoryId">
+                    <label for="CategoryId" class="col-sm-3 col-form-label">Select category</label>
+                    <select name="CategoryId">
                         @foreach (var item in (List<Category>)ViewBag.Categories)
                         {
                             @if (item.SubCategories.Any())

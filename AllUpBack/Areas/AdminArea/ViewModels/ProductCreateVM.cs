@@ -5,6 +5,9 @@ namespace AllUpBack.Areas.AdminArea.ViewModels
     public class ProductCreateVM
     {
         public string Tag { get; set; }
+        public int Count { get; set; }
+        public int CategoryId { get; set; }
+        public string Brand { get; set; }
         public Product Product { get; set; }
         public Color Color { get; set; }
         public Size Size { get; set; }

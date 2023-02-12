@@ -23,6 +23,8 @@ namespace AllUpBack.Models
         public string ProductCode { get; set; }
         public string Description { get; set; }
         public int CategoryId { get; set; }
+        public int? BrandId { get; set; }
+        public Brand Brand { get; set; }
         public Category Category { get; set; }
         public List<Image> Images { get; set; }
         public List<ProductTag> ProductTags { get; set; }
