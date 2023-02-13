@@ -1,4 +1,6 @@
 using AllUpBack.DAL;
+using AllUpBack.Models;
+using AllUpBack.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AllUpBack.Components
@@ -12,9 +14,10 @@ namespace AllUpBack.Components
             _context = context;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(ProductVM productVM)
         {
-            return View("Default");
+            
+            return View("Default", productVM);
         }
     }
 }

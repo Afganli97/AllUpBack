@@ -12,16 +12,16 @@
                 if (item.ParentId == null)
                 {
                     <li class="menu-item">
-                        <a asp-controller="product" asp-action="index" asp-route-categoryId="@item.Id">@item.CategoryName <i class="fal fa-chevron-right"></i></a>
+                        <a asp-controller="product" asp-action="index" asp-route-CategoryId="@item.Id">@item.CategoryName <i class="fal fa-chevron-right"></i></a>
                         <ul class="sub-menu flex-wrap">
                         @foreach (var sub in item.SubCategories)
                         {
                             <li>
-                                <a asp-controller="product" asp-action="index" asp-route-categoryId="@sub.Id"><span>@sub.CategoryName</span></a>
+                                <a asp-controller="product" asp-action="index" asp-route-CategoryId="@sub.Id"><span>@sub.CategoryName</span></a>
                                 <ul class="submenu-item ">
                                     @foreach (var subSub in sub.SubCategories)
                                     {
-                                        <li><a asp-controller="product" asp-action="index" asp-route-categoryId="@subSub.Id">@subSub.CategoryName</a></li>
+                                        <li><a asp-controller="product" asp-action="index" asp-route-CategoryId="@subSub.Id">@subSub.CategoryName</a></li>
                                     }
                                 </ul>
                             </li>

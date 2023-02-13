@@ -46,7 +46,7 @@ private readonly IWebHostEnvironment _env;
             ViewBag.Colors = _context.Colors.ToList();
             ViewBag.Sizes = _context.Sizes.ToList();
             ViewBag.Compositions = _context.Compositions.ToList();
-            ViewBag.Categories = _context.Categories.Include(x=>x.SubCategories).ThenInclude(x=>x.SubCategories).Where(x=>!x.IsDeleted).ToList();
+            ViewBag.Categories = _context.Categories.ToList();
 
             if (!ModelState.IsValid) return View();
 
@@ -59,6 +59,12 @@ private readonly IWebHostEnvironment _env;
             if (_context.Products.Any(c=>c.ProductName.ToLower() == productVM.Product.ProductName.ToLower()))
             {
                 ModelState.AddModelError("Name", "This name already exist!");
+                return View();
+            }
+            
+            if(!productVM.Sizes.Any(x=>x.Value>0))
+            {
+                ModelState.AddModelError("Count", "No count of product to add!");
                 return View();
             }
 
@@ -78,12 +84,20 @@ private readonly IWebHostEnvironment _env;
                 productVM.Product.Brand = brand;
             }
 
-            ProductCount productCount = new();
-
-            productCount.Color = _context.Colors.Find(productVM.Color.Id);
-            productCount.Composition = _context.Compositions.Find(productVM.Composition.Id);
-            productCount.Product = productVM.Product;
-            productVM.Product.ProductCounts.Add(productCount);
+            foreach (var item in productVM.Sizes)
+            {
+                if (item.Value == 0)
+                    continue;
+                    
+                ProductCount productCount = new();
+                
+                productCount.Size = _context.Sizes.Find(item.Key);
+                productCount.Count = item.Value;
+                productCount.Color = _context.Colors.Find(productVM.Color.Id);
+                productCount.Composition = _context.Compositions.Find(productVM.Composition.Id);
+                productCount.Product = productVM.Product;
+                productVM.Product.ProductCounts.Add(productCount);
+            }
 
             productVM.Product.CategoryId = productVM.CategoryId;
             _context.Products.Add(productVM.Product);

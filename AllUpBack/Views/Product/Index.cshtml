@@ -1,5 +1,5 @@
 @using AllUpBack.Components
-@model List<Product>
+@model ProductVM
 @{
     ViewData["Title"] = "Index";
 }
@@ -60,13 +60,13 @@
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="grid" role="tabpanel" aria-labelledby="grid-tab">
                             <div class="row">
-                                @foreach (var item in Model)
+                                @foreach (var item in Model.Products)
                                 {
                                     <div class="product-col col-md-4 col-sm-6">
                                         <div class="single-product mt-30">
                                             <div class="product-image">
                                                 <a asp-action="detail" asp-route-id="@item.Id">
-                                                    <img class="first-image" src="~/assets/images/product/@item.Images.FirstOrDefault(x=>x.IsMain)" alt="product">
+                                                    <img width="302" height="302" class="first-image" src="~/assets/images/product/@item.Images.FirstOrDefault(x=>x.IsMain).ImageUrl" alt="product">
                                                     <img class="second-image" src="~/assets/images/product/product-4.jpg" alt="product">
                                                 </a>
                                                 <ul class="product-meta">
@@ -77,7 +77,7 @@
                                                 </ul>
                                                 @if (@item.Discount != 0)
                                                 {
-                                                    <span class="discount-product">@item.Discount</span>
+                                                    <span class="discount-product">-@item.Discount</span>
                                                 }
                                             </div>
                                             <div class="product-content">
@@ -114,7 +114,7 @@
                     </ul>
                 </div>
 
-                @await Component.InvokeAsync(typeof(ProductSlideBar))
+                @await Component.InvokeAsync(typeof(ProductSlideBar), Model)
 
             </div> <!-- row -->
         </div> <!-- container -->

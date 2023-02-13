@@ -93,21 +93,25 @@ namespace AllUpBack.Areas.AdminArea.Controllers
             if (id == null) return NotFound();
             var category = _context.Categories.Find(id);
             if (category == null) return NotFound();
+            CategoryVM categoryVM = new();
+            categoryVM.Category = category;
+            categoryVM.Categories = _context.Categories.ToList();
 
-            return View(category);
+            return View(categoryVM);
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Update(Category category)
+        public IActionResult Update(CategoryVM categoryVM)
         {
             if (!ModelState.IsValid) return View();
-            if (_context.Categories.Any(c=>c.CategoryName.ToLower() == category.CategoryName.ToLower()))
+            if (_context.Categories.Any(c=>c.CategoryName.ToLower() == categoryVM.Category.CategoryName.ToLower()) && _context.Categories.Find(categoryVM.CategoryId).CategoryName.ToLower() != categoryVM.Category.CategoryName.ToLower())
             {
                 ModelState.AddModelError("Name", "This name already exist!");
-                return View(category);
+                return View(categoryVM);
             }
-            _context.Categories.Find(category.Id).CategoryName = category.CategoryName;
+            _context.Categories.Find(categoryVM.CategoryId).CategoryName = categoryVM.Category.CategoryName;
+            _context.Categories.Find(categoryVM.CategoryId).ParentId = categoryVM.Category.ParentId;
             _context.SaveChanges();
             return RedirectToAction("Index");
         }

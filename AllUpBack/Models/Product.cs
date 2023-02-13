@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using AllUpBack.DAL;
 using AllUpBack.Helpers;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,8 +14,9 @@ namespace AllUpBack.Models
             CreatedTime = DateTime.Now;
             LastModifiedTime = DateTime.Now;
             ProductTags = new();
-            Images = new();
             ProductCounts = new();
+            Images = new();
+            
         }
         public int Id { get; set; }
         public string ProductName { get; set; }

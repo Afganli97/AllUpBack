@@ -1,4 +1,4 @@
-﻿@model Category
+﻿@model CategoryVM
 @{
     ViewData["Title"] = "Update";
     Layout = "~/Areas/AdminArea/Views/Shared/_AdminLayout.cshtml";
@@ -10,14 +10,39 @@
             <p class="card-description"> Horizontal form layout </p>
             <form method="post" class="forms-sample">
                 <div class="form-group row">
-                    <label asp-for="CategoryName" class="col-sm-3 col-form-label">Category Name</label>
+                    <label asp-for="Category.CategoryName" class="col-sm-3 col-form-label">Category Name</label>
                     <div class="col-sm-9">
-                        <input asp-for="CategoryName" class="form-control" value="@Model.CategoryName">
+                        <input asp-for="Category.CategoryName" class="form-control" value="@Model.Category.CategoryName">
+                        <input asp-for="CategoryId" hidden type="number" value="@Model.Category.Id">
                     </div>
-                    <span asp-validation-for="CategoryName" class="text-danger"></span>
+                    <span asp-validation-for="Category.CategoryName" class="text-danger"></span>
                 </div>
-                <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                <button asp-action="index" class="btn btn-light">Cancel</button>
+
+                <div class="form-group row">
+                    <label for=".Category.ParentId" class="col-sm-3 col-form-label">Select main category</label>
+                    <select name="Category.ParentId">
+                        <option value="@Model.Category.ParentId">@Model.Category.Parent.CategoryName</option>
+                        @foreach (var item in Model.Categories)
+                        {
+                            @if (item.SubCategories.Any())
+                            {
+                                <option value="@item.Id">@item.CategoryName</option>
+                                    @foreach (var sub in item.SubCategories)
+                                    {
+                                        @if (sub.SubCategories.Any())
+                                        {
+                                            <option value="@sub.Id">--@sub.CategoryName</option>
+                                        }
+                                    }
+                            }
+                        }
+                    </section>
+                </div>
+
+                <div class="form-group row">
+                    <input type="submit" class="btn btn-primary mr-2" value="Submit">
+                    <button asp-action="index" class="btn btn-light">Cancel</button>
+                </div>
             </form>
         </div>
     </div>
